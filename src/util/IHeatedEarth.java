@@ -15,6 +15,11 @@ public interface IHeatedEarth {
 	public final long EARTH_HEMISPHEREAREA=255036000000000L;
 	public final int EARTH_DEGREES = 360;
 	public final int MINUTES_IN_DAY = 1440;
+	public final int SEMI_MAJOR = 149600000;
+	public final int ARG_OF_PERIAPSIS = 114;
+	public final int EARTH_YEAR = 525600;
+	
+	
 
 
 	/*note this assumes we model earth as a 10cm deep plate to be heated. 

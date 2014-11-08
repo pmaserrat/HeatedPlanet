@@ -1,7 +1,6 @@
 package SimulationEngine;
 
 import util.IHeatedEarth;
-
 import util.InitializeEarth;
 
 
@@ -24,24 +23,30 @@ public class HeatedEarth implements IHeatedEarth {
 	private long current_iteration = 0;
 	private int degreesPrecision;
 	private int timeStep;
+	private double eccentricity;
 	private int sunIn;
+	private int semiMajor;
 	private int row;
 	private int col;
 	private Runtime runtime;
 	private long startTime;
 	private long stopTime;
 	private double heatPerMinute;
-
+	private double avgHeatPerMinute;
+	private int attempts=0;
 
 	public HeatedEarth(InitializeEarth earth) {
 		
 
 		this.initialEarth = earth;
 		this.degreesPrecision=earth.getDegrees();
+		this.eccentricity=earth.getEccentricity();
 		this.averageArea=earth.getAverageArea();
 		this.timeStep=earth.getTimeStep();
 		this.sunIn=HeatedEarth.SUN_IN;
+		this.semiMajor=HeatedEarth.SEMI_MAJOR;
 		this.heatPerMinute=HeatedEarth.HEAT_PER_MINUTE;
+		this.avgHeatPerMinute=this.heatPerMinute;
 		this.row=earth.getRows();
 		this.col=earth.getCols();
 		this.sizeRatios=earth.getInitialRatios();
@@ -103,10 +108,118 @@ public class HeatedEarth implements IHeatedEarth {
 		return degreesRotated;
 	}
 
-
+	private double f(double mean,double guess){
+		double f = guess - this.eccentricity * Math.sin(guess) - mean;
+		return f;
+	}
+	
+	private double fprime(double guess){
+		double fprime = 1 - this.eccentricity * Math.cos(guess);
+		return fprime;
+	}
+	private double calculateEccentricAnomaly(double mean,double start){
+		double deltadiv=start;
+		double precision = .001;
+		double mindiv = .001;
+		double y;
+		double yprime;
+		if (this.current_iteration==29){
+			System.out.print("29");
+		}
+		this.attempts+=1;
+		
+		//if the absolute value of the start val is too small...use a minimum value for division.
+		if (Math.abs(deltadiv)<mindiv){
+			deltadiv=mindiv;
+		}
+		
+			y=f(mean,start);
+			yprime=fprime(start);
+			if(Math.abs(yprime)<mindiv){
+				System.out.println ("fprime divisor too small");
+				return start;
+			}
+			y=y-(y/yprime);
+			if (Math.abs(y)< precision){ //Math.abs(y-start)/Math.abs(deltadiv) <
+				System.out.print("CALC ITERATIONS:");
+				System.out.println(this.attempts);
+				return y;
+			} else {
+				return calculateEccentricAnomaly(mean,y);
+			}
+		
+		
+				
+		
+	}
+	
+	private double getKeplerSolution(double mean, double guess){
+		boolean go = true;
+	    double x1=guess;
+		double x=0;
+		while (go){
+			x=mean + this.eccentricity*Math.sin(x1);
+			if (Math.abs(x-x1)<.001){
+				go=false;
+			}
+			x1=x;
+		}
+		while (x>Math.PI*2){
+			x=x-2*Math.PI;
+		}
+		while(x<0){
+			x=x+2*Math.PI;
+		}
+		
+		return x;
+	}
+	
+	private double getSolarRotation(){
+		double meanAnomaly= 2 * Math.PI * this.current_iteration*this.timeStep / this.EARTH_YEAR;
+		while (meanAnomaly> 2*Math.PI){
+			meanAnomaly = meanAnomaly-2*Math.PI;
+		}
+		double guess = meanAnomaly;
+		if (this.eccentricity>.8){
+			guess = Math.PI;
+		}
+		double eccentricAnomaly=getKeplerSolution(meanAnomaly,guess);
+		/*System.out.print("Eccentric ANOMALY:");
+		System.out.println(eccentricAnomaly);
+		System.out.print("VALIDATION:");
+		System.out.println(eccentricAnomaly - this.eccentricity * Math.sin(eccentricAnomaly)-meanAnomaly);
+		*/
+		double trueNumerator = Math.cos(eccentricAnomaly)-this.eccentricity;
+		double trueDivisor = 1 - this.eccentricity*Math.cos(eccentricAnomaly);
+		double trueAnomaly = Math.acos(trueNumerator/trueDivisor);
+		return trueAnomaly;
+	}
+	
+	private double getSunDistance(double trueAnomaly) {
+	double distanceNumerator = this.semiMajor * (1- Math.pow(this.eccentricity, 2));
+	double distanceDivisor = (1+ this.eccentricity * Math.cos(trueAnomaly));
+	double distance  = distanceNumerator/distanceDivisor; 
+	return distance;
+	}
+	
+	private void setHeatPerMinute(double sunDistance){
+		//using previous calculations, 2.713 degree kelvin per minute total heating at a distance of 149,600,000km
+		//I1/I2=D2^2/D1^2
+		this.heatPerMinute=this.avgHeatPerMinute*Math.pow(this.semiMajor,2)/Math.pow(sunDistance, 2);
+		System.out.print("HPM:");
+		System.out.println(this.heatPerMinute);
+		
+	}
 	private void heatIn(){
-
-
+		this.attempts=0;
+		double solarRotation= getSolarRotation();
+		double sunDistance= getSunDistance(solarRotation);
+		setHeatPerMinute(sunDistance);
+		
+		System.out.print("Solar Rotation:");
+		System.out.println (solarRotation);
+		System.out.print("DISANCE:");
+		System.out.println(sunDistance);
 		double totalAbsorbedCoefficent;
 		double sunCoefficient=0;
 		double degreesRotated= this.getAdditionalDegrees();
@@ -359,7 +472,7 @@ public class HeatedEarth implements IHeatedEarth {
 		System.out.println(current_iteration);
 
 
-		keepGoing=checkStability();
+		//keepGoing=checkStability();
 
 
 		if (this.current_iteration==500){
@@ -373,7 +486,7 @@ public class HeatedEarth implements IHeatedEarth {
 		}
 
 
-		if (this.current_iteration>5000){
+		if (this.current_iteration>365){
 			keepGoing=false;
 		}
 		}

@@ -8,7 +8,7 @@ public class Demo {
 
 
 	public static void main(String[] args) {
-		if (args.length != 6) {
+		if (args.length != 8) {
 			System.out
 					.println("Input incorrect, please enter the following : -d # -t # "
 							+ newline

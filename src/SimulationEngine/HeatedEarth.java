@@ -24,8 +24,11 @@ public class HeatedEarth implements IHeatedEarth {
 	private int degreesPrecision;
 	private int timeStep;
 	private double eccentricity;
+	private double obliquity;
 	private int sunIn;
-	private int semiMajor;
+	private double semiMajor;
+	private double earthYear;
+	private double bAxis; 
 	private int row;
 	private int col;
 	private Runtime runtime;
@@ -41,10 +44,12 @@ public class HeatedEarth implements IHeatedEarth {
 		this.initialEarth = earth;
 		this.degreesPrecision=earth.getDegrees();
 		this.eccentricity=earth.getEccentricity();
+		this.obliquity=earth.getObliquity();
 		this.averageArea=earth.getAverageArea();
 		this.timeStep=earth.getTimeStep();
 		this.sunIn=HeatedEarth.SUN_IN;
 		this.semiMajor=HeatedEarth.SEMI_MAJOR;
+		this.earthYear=HeatedEarth.EARTH_YEAR;
 		this.heatPerMinute=HeatedEarth.HEAT_PER_MINUTE;
 		this.avgHeatPerMinute=this.heatPerMinute;
 		this.row=earth.getRows();
@@ -57,6 +62,7 @@ public class HeatedEarth implements IHeatedEarth {
 		this.newEarth=new double[row][col];
 		this.rowAverage= new double[row];
 		//initialize();
+		calculateBAxis();
 		calculate();
 	}
 
@@ -108,48 +114,12 @@ public class HeatedEarth implements IHeatedEarth {
 		return degreesRotated;
 	}
 
-	private double f(double mean,double guess){
-		double f = guess - this.eccentricity * Math.sin(guess) - mean;
-		return f;
-	}
-	
-	private double fprime(double guess){
-		double fprime = 1 - this.eccentricity * Math.cos(guess);
-		return fprime;
-	}
-	private double calculateEccentricAnomaly(double mean,double start){
-		double deltadiv=start;
-		double precision = .001;
-		double mindiv = .001;
-		double y;
-		double yprime;
-		if (this.current_iteration==29){
-			System.out.print("29");
-		}
-		this.attempts+=1;
-		
-		//if the absolute value of the start val is too small...use a minimum value for division.
-		if (Math.abs(deltadiv)<mindiv){
-			deltadiv=mindiv;
-		}
-		
-			y=f(mean,start);
-			yprime=fprime(start);
-			if(Math.abs(yprime)<mindiv){
-				System.out.println ("fprime divisor too small");
-				return start;
-			}
-			y=y-(y/yprime);
-			if (Math.abs(y)< precision){ //Math.abs(y-start)/Math.abs(deltadiv) <
-				System.out.print("CALC ITERATIONS:");
-				System.out.println(this.attempts);
-				return y;
-			} else {
-				return calculateEccentricAnomaly(mean,y);
-			}
-		
-		
-				
+
+	private void calculateBAxis(){
+		double bSquare = (1-Math.pow(this.eccentricity,2))*Math.pow(this.semiMajor,2);
+		this.bAxis = Math.sqrt(bSquare);
+        System.out.print("B-Axis:");
+		System.out.println(bAxis);
 		
 	}
 	
@@ -175,7 +145,7 @@ public class HeatedEarth implements IHeatedEarth {
 	}
 	
 	private double getSolarRotation(){
-		double meanAnomaly= 2 * Math.PI * this.current_iteration*this.timeStep / this.EARTH_YEAR;
+		double meanAnomaly= 2 * Math.PI * this.current_iteration*this.timeStep / this.earthYear;
 		while (meanAnomaly> 2*Math.PI){
 			meanAnomaly = meanAnomaly-2*Math.PI;
 		}
@@ -208,14 +178,25 @@ public class HeatedEarth implements IHeatedEarth {
 		this.heatPerMinute=this.avgHeatPerMinute*Math.pow(this.semiMajor,2)/Math.pow(sunDistance, 2);
 		System.out.print("HPM:");
 		System.out.println(this.heatPerMinute);
+			
+	}
+	private double sunLatitudeDegrees(){
+		double angle=this.current_iteration * this.timeStep;
+		angle = (angle - 166440) % this.earthYear;
+		angle = angle * 2 * Math.PI / this.earthYear;
+		//this result will be the angle in degrees the sun is +/- the equator
+		angle = this.obliquity * Math.sin(angle);
 		
+		System.out.print("SUN LAT:");
+		System.out.println(angle);
+		return angle;
 	}
 	private void heatIn(){
 		this.attempts=0;
 		double solarRotation= getSolarRotation();
 		double sunDistance= getSunDistance(solarRotation);
 		setHeatPerMinute(sunDistance);
-		
+		double sunLat=sunLatitudeDegrees();
 		System.out.print("Solar Rotation:");
 		System.out.println (solarRotation);
 		System.out.print("DISANCE:");
@@ -244,6 +225,12 @@ public class HeatedEarth implements IHeatedEarth {
 
 		for (int i=0; i<row;i++){
 			double attenuationLatitude = this.sizeRatios[i][7];
+			attenuationLatitude = Math.toDegrees(Math.acos(attenuationLatitude));
+			attenuationLatitude+= sunLat;
+			attenuationLatitude=Math.cos(Math.toRadians(attenuationLatitude));
+			if (attenuationLatitude<0) {
+				attenuationLatitude=0;
+			}
 			//the values of j select the appropriate cells that are facing the sun. note there are no cells partially facing the sun
 			for (int j=0+colsRotated-(this.row/2);j<(this.row/2)+colsRotated;j++){
 				int k=j;

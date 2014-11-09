@@ -9,6 +9,7 @@ public class InitializeEarth {
 	private int degreesPrecision;
 	private int timeStep;
 	private double eccentricity;
+	private double obliquity;
 	private String errorMessage="";
 	private double[][] initialEarth;
 	private double[][] initialRatios;
@@ -18,7 +19,7 @@ public class InitializeEarth {
 	private int col;
 
 
-	public InitializeEarth(int degrees, int time, double eccentricity) {
+	public InitializeEarth(int degrees, int time, double eccentricity, double obliquity) {
 
 
 		if (degrees <= 0) {
@@ -40,9 +41,20 @@ public class InitializeEarth {
 				return; 
 		}
 
+		if (obliquity < -180) {
+			this.errorMessage = "Obliquity must be geq -180";
+			return;
+		}
+		
+		if (obliquity > 180) {
+				this.errorMessage = "Obliquity must be leq 180";
+				return; 
+		}
+		
 		this.timeStep=time;
 		this.degreesPrecision=correctDegrees(degrees);
 		this.eccentricity = eccentricity;
+		this.obliquity= obliquity;
 		this.initialize();
 		return;
 		}
@@ -56,12 +68,12 @@ public class InitializeEarth {
 
 	public InitializeEarth(String[] args) {
 		
-		this((int)recognizeInputs(args, "-d"), (int)recognizeInputs(args, "-t"), recognizeInputs(args, "-e"));
+		this((int)recognizeInputs(args, "-d"), (int)recognizeInputs(args, "-t"), recognizeInputs(args, "-e"), recognizeInputs(args, "-o"));
 	}
 
 
 	private static double recognizeInputs(String[] args, String arg) {
-		for (int i = 0; i <6 ; i += 2) {
+		for (int i = 0; i <8 ; i += 2) {
 			if (args[i].toLowerCase().equals(arg))
 				return Double.parseDouble(args[i + 1]);
 		}
@@ -176,6 +188,10 @@ public class InitializeEarth {
 	
 	public double getEccentricity(){
 		return this.eccentricity;
+	}
+	
+	public double getObliquity(){
+		return this.obliquity;
 	}
 	public String getErrorMessage() {
 		return this.errorMessage;

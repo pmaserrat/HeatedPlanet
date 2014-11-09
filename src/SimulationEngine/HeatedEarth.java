@@ -212,13 +212,8 @@ public class HeatedEarth implements IHeatedEarth {
 
 
 		for (int i=0; i<row;i++){
-			for (int j=0;j<col;j++){
-				this.sunHeat[i][j]=0;
-				//set all to 0 to begin. will set actual values for cells facing the sun next.
-			}
-
-
-		}
+			for (int j=0;j<col;j++){this.sunHeat[i][j]=0;}
+		}//End for loop to set all to 0 to begin. will set actual values for cells facing the sun next.
 
 
 
@@ -228,44 +223,44 @@ public class HeatedEarth implements IHeatedEarth {
 			attenuationLatitude = Math.toDegrees(Math.acos(attenuationLatitude));
 			attenuationLatitude+= sunLat;
 			attenuationLatitude=Math.cos(Math.toRadians(attenuationLatitude));
+			//if attenuation latitude <0 the heat should to to the cells on the symmetrically opposite side (switch n/s and e/w)
 			if (attenuationLatitude<0) {
 				attenuationLatitude=0;
 			}
 			//the values of j select the appropriate cells that are facing the sun. note there are no cells partially facing the sun
 			for (int j=0+colsRotated-(this.row/2);j<(this.row/2)+colsRotated;j++){
 				int k=j;
-				if(j<0){
-					k=j+this.col;
-				}
-				if(j>=this.col){
-					k=j-this.col;
-				}
+				if(j<0){k=j+this.col;}
+				if(j>=this.col){k=j-this.col;}
 				int ratioIndex=j+(this.row/2)-colsRotated;					
 				//most accurately reflects the "average" degree angle based on time. also allows to continue modeling rotation until the next cell is in view.
 				cellDegrees= -90 - degreesRotated/2 + (ratioIndex*this.degreesPrecision) + (this.degreesPrecision/2);
 				cellDegrees=Math.toRadians(cellDegrees);
 				attenuationTime = Math.cos(cellDegrees);
 
-
+				if (attenuationLatitude>0){
 				this.sunHeat[i][k]= this.timeStep * this.heatPerMinute  * attenuationLatitude * attenuationTime ;
-			}
-		}
+				} 
+				//if the attenuation to latitude is -1, it means the part of the globe is out of the sun, so the heat that would have gone here is on the opposite side for both N/S and E/W
+				else{
+					attenuationLatitude*=-1;
+					//flip k to the other side E/W
+					k+=this.row/2;
+					if (k>=this.col) {k-=this.col;}
+					//flip the row to the other side N/S
+					int q = (int) Math.floor(this.obliquity / this.degreesPrecision);
+					int p=i+q-this.row;
+					if (p<0){p+=this.row;}
+					this.sunHeat[p][k]=this.timeStep * this.heatPerMinute  * attenuationLatitude * attenuationTime ;
+					}
+			} //end for loop for columns facing the sun
+		}//end for loop for all rows
+		
 			totalSunHeating=0;	
-		//if (current_iteration==0){
+		
 			for (int i=0;i<row;i++){
-				for (int j=0;j<col;j++){
-					totalSunHeating=totalSunHeating+sunHeat[i][j];
-				}
+				for (int j=0;j<col;j++){totalSunHeating=totalSunHeating+sunHeat[i][j];}
 			}
-
-
-		//}
-
-
-
-
-
-
 	}
 
 

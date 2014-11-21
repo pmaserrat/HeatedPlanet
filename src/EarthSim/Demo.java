@@ -233,12 +233,12 @@ public class Demo extends JFrame {
         jGridSpcSlider1.setPaintLabels(true);           // displa the tick values
         
         jSimTmStpLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jSimTmStpLabel.setText("Simulation Time Step (1)");
+        jSimTmStpLabel.setText("Simulation Time Step (50)");
         
         // simulation time step slider
         jSimTmStpSlider2.setMaximum(1440);
         jSimTmStpSlider2.setMinimum(1);
-        jSimTmStpSlider2.setValue(1);
+        jSimTmStpSlider2.setValue(50);
         
         jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jElapSimTmLabel4.setText("Elapsed Simulation Time (days, hours, minutes) 00:00:00");
@@ -264,6 +264,7 @@ public class Demo extends JFrame {
         jSlider6.setMinimum(1);
         jSlider6.setPaintLabels(false);
         jSlider6.setPaintTicks(false);
+        jSlider6.setValue(10);
         
         jSlider3.setMaximum(60);
         jSlider3.setMinimum(1);
@@ -276,11 +277,11 @@ public class Demo extends JFrame {
         jLabel6.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jLabel6.setText("Buffer Size (1)");
         jLabel8.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel8.setText("Maximum Iterations");
+        jLabel8.setText("Maximum Iterations(10)");
 
 
         jLabel7.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel7.setText("Simulation Rate");
+        jLabel7.setText("Simulation Rate(60)");
 
         
         
@@ -466,7 +467,7 @@ public class Demo extends JFrame {
         jSlider3.setMinimum(1);
         jSlider3.setPaintLabels(true);
         jSlider3.setPaintTicks(true);
-        jSlider3.setValue(1);
+        jSlider3.setValue(3);
         jSlider4.setMaximum(1000);
         jSlider4.setMinimum(1);
         //jSlider4.setMinorTickSpacing(10);
@@ -475,7 +476,7 @@ public class Demo extends JFrame {
         jSlider4.setValue(1);
 
         jLabel5.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel5.setText("Presentation Display Rate");
+        jLabel5.setText("Presentation Display Rate(3)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

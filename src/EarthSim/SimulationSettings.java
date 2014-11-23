@@ -14,6 +14,9 @@ public class SimulationSettings {
 	private int presentationRate = 60;
 	private int simulationRate = 60;
 	private int simulationIterations = 1000000;
+	private double eccentricity = .0167; //default value
+	private double obliquity = 23.44; //default value
+	
 
     public SimulationSettings(){
 
@@ -161,6 +164,25 @@ public class SimulationSettings {
 
 	public void setConsumerThread(boolean consumerThread) {
 		this.consumerThread = consumerThread;
+	}
+
+	public double getEccentricity() {
+		return eccentricity;
+	}
+
+	public void setEccentricity(double eccentricity) {
+		if (eccentricity >= 0 && eccentricity <1 ){
+		this.eccentricity = eccentricity; }
+	}
+
+	public double getObliquity() {
+		
+		return obliquity; 
+	}
+
+	public void setObliquity(double obliquity) {
+		if (obliquity >=-180 && obliquity <=180){
+			this.obliquity = obliquity;}
 	}
 
 }

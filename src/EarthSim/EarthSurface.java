@@ -28,6 +28,13 @@ public class EarthSurface {
     private double[] highAvgTemp = null;
     private boolean newExtreme = false;
     private double changeThreshold = 0.01;
+    
+    
+    private int earthYear=525600;
+    private int semiMajor=149600000;
+    private double bAxis;
+    private double posX;
+    private double posY;
 
 
     public EarthSurface(SimulationSettings settings){
@@ -158,17 +165,98 @@ public class EarthSurface {
     	return tempChange;
     }
     
+    private void calculateBAxis(){
+		double bSquare = (1-Math.pow(this.settings.getEccentricity(),2))*Math.pow(this.semiMajor,2);
+		this.bAxis = Math.sqrt(bSquare);
+     
+		
+	}
+    
+    private double getKeplerSolution(double mean, double guess){
+		boolean go = true;
+	    double x1=guess;
+		double x=0;
+		while (go){
+			x=mean + this.settings.getEccentricity()*Math.sin(x1);
+			if (Math.abs(x-x1)<.001){
+				go=false;
+			}
+			x1=x;
+		}
+		while (x>Math.PI*2){
+			x=x-2*Math.PI;
+		}
+		while(x<0){
+			x=x+2*Math.PI;
+		}
+		
+		return x;
+	}
+	
+	private double getSolarRotation(){
+		
+		double meanAnomaly= 2 * Math.PI * this.currentIteration*this.settings.getTimeStep() / this.earthYear;
+		while (meanAnomaly> 2*Math.PI){
+			meanAnomaly = meanAnomaly-2*Math.PI;
+		}
+		double guess = meanAnomaly;
+		if (this.settings.getEccentricity()>.8){
+			guess = Math.PI; }
+		
+		double eccentricAnomaly=getKeplerSolution(meanAnomaly,guess);
+		calculateBAxis(); //calculate length of b-axis based on eccentricity
+		calcPlanetPosition(eccentricAnomaly); //calculate X,Y coordinates
+		double trueNumerator = Math.cos(eccentricAnomaly)-this.settings.getEccentricity();
+		double trueDivisor = 1 - this.settings.getEccentricity()*Math.cos(eccentricAnomaly);
+		double trueAnomaly = Math.acos(trueNumerator/trueDivisor);
+		return trueAnomaly;
+		}
+    
+	private void calcPlanetPosition(double eccentricAnomaly){
+		posX = this.semiMajor/2 + this.semiMajor*Math.sin(Math.toRadians(eccentricAnomaly));
+		posY = this.bAxis*Math.sin(Math.toRadians(eccentricAnomaly));
+		
+	}
+	private double getSunDistance(double trueAnomaly) {
+		double distanceNumerator = this.semiMajor * (1- Math.pow(this.settings.getEccentricity(), 2));
+		double distanceDivisor = (1+ this.settings.getEccentricity() * Math.cos(trueAnomaly));
+		double distance  = distanceNumerator/distanceDivisor; 
+		return distance;
+		}
+	
+	private double sunLatitudeDegrees(){
+		
+		double angle=this.currentIteration * this.settings.getTimeStep();
+		angle = (angle - 166440) % this.earthYear;
+		angle = angle * 2 * Math.PI / this.earthYear;
+		//this result will be the angle in degrees the sun is +/- the equator
+		angle = this.settings.getObliquity() * Math.sin(angle);
+		return angle;
+	}
+	
+
+	
     private double[][] getTempChangeFromAbsorption(){
     	double[][] tempChange = new double[this.latGridSize][this.longGridSize];
     	double dAngle = this.dLat;
     	int dt = this.settings.getTimeStep();
+    	
+    	double solarRotation= getSolarRotation(); //true anomaly
+		double sunDistance = getSunDistance(solarRotation); //distance from sun based on true anomaly
+		
+		//how much more/less heat is coming in due to being closer/farther from the sun
+		double distanceFactor = Math.pow(this.semiMajor,2)/Math.pow(sunDistance, 2);
+    	double sunLat = sunLatitudeDegrees(); //get the sun's latitude position which will be [-tilt,tilt]  
+    	
     	for(int i = 0; i < this.latGridSize; i++){
             for(int j = 0; j < this.longGridSize; j++){
             	 double currentAngle = (currentIteration*settings.getTimeStep()*settings.getAngularVelocity()+(j+0.5)*this.dLong*180/Math.PI)%360;
+            	 currentAngle+=sunLat; //adjust the latitude angle based on position of the sun
             	 if (currentAngle < 0)
             		 currentAngle += 360;
                  if(currentAngle >= 270 || currentAngle <=90){
                  	 tempChange[i][j]= dt*kAbsorption*SurfaceArea[i][j]*Math.sin((i+0.5)*dAngle)*Math.cos(currentAngle*Math.PI/180);//*this.latGridSize*this.longGridSize*/this.surfaceArea;
+                 	 tempChange[i][j] = tempChange[i][j] * distanceFactor; //adjust heat intensity based on distance from the sun
                  } else {
                 	 tempChange[i][j] = 0.0;
                  }

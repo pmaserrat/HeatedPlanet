@@ -239,6 +239,7 @@ public class EarthSurface {
     private double[][] getTempChangeFromAbsorption(){
     	double[][] tempChange = new double[this.latGridSize][this.longGridSize];
     	double dAngle = this.dLat;
+    	
     	int dt = this.settings.getTimeStep();
     	
     	double solarRotation= getSolarRotation(); //true anomaly
@@ -248,15 +249,27 @@ public class EarthSurface {
 		double distanceFactor = Math.pow(this.semiMajor,2)/Math.pow(sunDistance, 2);
     	double sunLat = sunLatitudeDegrees(); //get the sun's latitude position which will be [-tilt,tilt]  
     	
+    	
+    	
     	for(int i = 0; i < this.latGridSize; i++){
-            for(int j = 0; j < this.longGridSize; j++){
+    		for(int j = 0; j < this.longGridSize; j++){
             	 double currentAngle = (currentIteration*settings.getTimeStep()*settings.getAngularVelocity()+(j+0.5)*this.dLong*180/Math.PI)%360;
-            	 currentAngle+=sunLat; //adjust the latitude angle based on position of the sun
+            	 
+             	 
             	 if (currentAngle < 0)
             		 currentAngle += 360;
                  if(currentAngle >= 270 || currentAngle <=90){
-                 	 tempChange[i][j]= dt*kAbsorption*SurfaceArea[i][j]*Math.sin((i+0.5)*dAngle)*Math.cos(currentAngle*Math.PI/180);//*this.latGridSize*this.longGridSize*/this.surfaceArea;
+                	 double latAngle = Math.toRadians(sunLat) + ((i+0.5)*dAngle);
+                	 if (latAngle>Math.PI){
+                		 latAngle=Math.PI;
+                	 }
+                	 if (latAngle<0){
+                		 latAngle=0;
+                	 }
+                	 currentAngle=Math.toRadians(currentAngle);
+                 	 tempChange[i][j]= dt*kAbsorption*SurfaceArea[i][j]*Math.sin(latAngle)*Math.cos(currentAngle);//*this.latGridSize*this.longGridSize*/this.surfaceArea;
                  	 tempChange[i][j] = tempChange[i][j] * distanceFactor; //adjust heat intensity based on distance from the sun
+                 	 
                  } else {
                 	 tempChange[i][j] = 0.0;
                  }

@@ -312,7 +312,7 @@ public class EarthSurface {
     				tempGrid[i][j] = Grid[i][j-longGridSize/2];
     		}
     	}
-        EarthGrid grid = new EarthGrid(timestep,tempGrid,sunLongitude,isStable,settings);
+        EarthGrid grid = new EarthGrid(timestep,tempGrid,this.sunLatitudeDegrees(),this.posX,this.posY,sunLongitude,isStable,settings);
         //printGrid(Grid, 1.0);
     	return grid;
     }

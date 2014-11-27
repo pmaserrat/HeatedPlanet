@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.Calendar;
 
-import com.mysql.jdbc.PreparedStatement;
 
 public class MainDB {
 	 
@@ -83,33 +81,35 @@ public class MainDB {
 		      String sql = "CREATE TABLE IF NOT EXISTS PHYSICALFACTORS " +
 		                   "(name VARCHAR(255) not NULL, " +
 		                   " axialtilt INTEGER, " + 
-		                   " eccentricity DOUBLE "; 
+		                   " eccentricity DOUBLE) "; 
 
 		      stmt.executeUpdate(sql);
 		      System.out.println("Created physical factors table");
 		      
 		    //Create main table with keys
-		      stmt = conn.createStatement();
+		      Statement stmt2 = conn.createStatement();
 		      
-		      sql = "CREATE TABLE IF NOT EXISTS SIMULATIONSETTINGS " +
+		      String sql2 = "CREATE TABLE IF NOT EXISTS SIMULATIONSETTINGS " +
 		                   "(name VARCHAR(255) not NULL, " +
 		                   " gridspacing INTEGER, " + 
 		                   " timestep INTEGER, " + 
-		                   " SimulationLength INTEGER "; 
+		                   " SimulationLength INTEGER) "; 
+		      System.out.println(sql2);
 
-		      stmt.executeUpdate(sql);
+		      stmt2.executeUpdate(sql2);
 		      System.out.println("Created sim settings table");
 		      
 		    //Create main table with keys
-		      stmt = conn.createStatement();
+		      Statement stmt3 = conn.createStatement();
 		      
-		      sql = "CREATE TABLE IF NOT EXISTS INVOCATIONSETTINGS " +
+		      String sql3 = "CREATE TABLE IF NOT EXISTS INVOCATIONSETTINGS " +
 		                   "(name VARCHAR(255) not NULL, " +
-		                   " precision INTEGER, " + 
+		                   " precisions INTEGER, " + 
 		                   " geographic INTEGER, " + 
-		                   " temporal INTEGER"; 
+		                   " temporal INTEGER) "; 
+		      System.out.println(sql3);
 
-		      stmt.executeUpdate(sql);
+		      stmt3.executeUpdate(sql3);
 		      System.out.println("Created invocation table");
 		      
 		    //Create main table with keys
@@ -121,7 +121,7 @@ public class MainDB {
 		                   " readingtime VARCHAR(255), " + 
 		                   " latitude INTEGER, " + 
 		                   " longitude INTEGER, " +
-		                   " temperature DOUBLE ";
+		                   " temperature DOUBLE) ";
 
 		      stmt.executeUpdate(sql);
 		      System.out.println("Created grid table");

@@ -34,6 +34,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import persistence.MainDB;
+
 /********************************************************************************************* 
  * @author Team 9
  * @version 1.0
@@ -121,6 +123,8 @@ public class Demo extends JFrame {
     private MasterProducer pc = null;
     private Thread nonGUIThread = null;
     private boolean RunSimOK              = false;
+    
+ 
 	
 	/**
 	 * Launch the application.
@@ -152,6 +156,10 @@ public class Demo extends JFrame {
 		}
 		else
 		{
+			
+			final MainDB db = new MainDB();
+			db.dbConnection();
+			db.createTables();
 			final SimulationSettings settings = new SimulationSettings();
 			settings.setBufferSize(bufferSize);
 			//both -s and -p are not supplied

@@ -28,8 +28,7 @@ public class EarthSurface {
     private double[] highAvgTemp = null;
     private boolean newExtreme = false;
     private double changeThreshold = 0.01;
-    
-    
+       
     private int earthYear=525600;
     private int semiMajor=149600000;
     private double bAxis;

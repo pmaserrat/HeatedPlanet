@@ -19,6 +19,7 @@ public class EarthGrid {
 	public EarthGrid(){
 		tempGrid = null;
 		timestep = -1;
+	
 	}
 	
 	public EarthGrid(int timestep,double[][] grid, double sunLatin, double posXin, double posYin, double sunLongitude, boolean isStable, SimulationSettings settings){

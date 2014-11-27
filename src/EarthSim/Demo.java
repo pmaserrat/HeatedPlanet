@@ -9,6 +9,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import java.awt.event.ActionListener;
@@ -89,28 +92,50 @@ public class Demo extends JFrame {
 	public static javax.swing.JComboBox jComboBox1;                      // Initiative drop down combo
 	public static JSlider               jGridSpcSlider1 ;                //  grid spacing slider selector
 	public static JSlider               jSimTmStpSlider2;                //  Simulation Time Step Slider selector
-	public static JSlider               jSlider3 ;                       //  Presentation Display Rate
+	public static JSlider               jPresDisRateSlider ;                       //  Presentation Display Rate
 	public static JSlider               jSlider4;                        //  Buffer slider
          
 	public static  int                  curIteration  =0;
 	
 	
+
+	
 	private JLabel    jGridSpcLabel1       = new javax.swing.JLabel();   // Grid Spacing Label      
 	private JLabel    jSimTmStpLabel       = new javax.swing.JLabel();   // Sim Time Step Label     
-   // private JSlider   jSimTmStpSlider2     = new javax.swing.JSlider();  // Sim. Time Step Slider    
-    private JPanel    jPanel1              = new javax.swing.JPanel();   // lower status panel      
+    private JPanel    jPanel1              = new javax.swing.JPanel();   // lower status panel  
+    private JPanel    jPanel2              = new javax.swing.JPanel();   // lower status panel
+    private JPanel    jPanel3              = new javax.swing.JPanel();   // lower status panel
+    private JPanel    jPanel5              = new javax.swing.JPanel();
+    private JPanel      jPanel7            = new javax.swing.JPanel();
+    private JScrollPane jScrollPane2       = new javax.swing.JScrollPane(); 
     private JLabel    jElapSimTmLabel4     = new javax.swing.JLabel();   // Elapsed Sim. Time display label 
     private JLabel    jRotPosLabel3        = new javax.swing.JLabel();   // Rotational Position display Label 
     
     private JToggleButton jToggleButton1   = new javax.swing.JToggleButton(); // pause/restart button  (not sure if really necessary)
     
-    private JSlider   jSlider6             = new javax.swing.JSlider();  //iterationcount
-    private JSlider   jSlider5             = new javax.swing.JSlider();  //simulation rate
-    private JLabel    jLabel5              = new javax.swing.JLabel();
-    private JLabel    jLabel6              = new javax.swing.JLabel();
-    private JLabel    jLabel7              = new javax.swing.JLabel();
-
-    private JLabel    jLabel8              = new javax.swing.JLabel();
+    private JSlider   jSlider6             = new javax.swing.JSlider(); // iteration count
+    private JSlider   jSlider5             = new javax.swing.JSlider(); // simulation rate
+    private JLabel    jPresDisRateLabel    = new javax.swing.JLabel();  // Presentation Display rate Label
+    private JLabel    jEndLocLabel         = new javax.swing.JLabel();  // End latitude/longitude Label
+    private JLabel    jSimRateLabel        = new javax.swing.JLabel();  // Simulation Rate Label
+    private JLabel    jStartLocLabel       = new javax.swing.JLabel();  // Start latitude/longitude Label
+    private JLabel    jQueryLabel          = new javax.swing.JLabel();  // Query box Label
+    private JLabel    jEccentLabel         = new javax.swing.JLabel();  // Eccentricity Label
+    private JLabel    jTiltLabel           = new javax.swing.JLabel();  // Obliguity Label
+    
+    private JLabel    jDurationLabel       = new javax.swing.JLabel();      // Duration Label
+    private JLabel    jOrbitalPosLabel     = new javax.swing.JLabel();      // Orbital Position Label
+    
+    private JTextArea  jTextArea2          = new javax.swing.JTextArea();  
+    
+    private JTextField jEccentText         = new javax.swing.JTextField();  // Eccentricity TextField
+    private JTextField jTiltText           = new javax.swing.JTextField();  // Obliquity TextField
+    private JTextField jStartLocText       = new javax.swing.JTextField();  // Start Latitude/Longitude TextField
+    private JTextField jEndLocText         = new javax.swing.JTextField();  // End Latitude/Longitude TextField
+    private JTextField jDurationText       = new javax.swing.JTextField();  // Simulation Duration TextField
+    private JTextField jOrbitalPosText     = new javax.swing.JTextField();  // Orbital Position TextField
+    
+    
     
     private TempEarthGrid tempgrid;
     
@@ -222,11 +247,11 @@ public class Demo extends JFrame {
 		
         
         /***************************** Set initial GUI Control Values*****************************************************/
-    	jComboBox1       = new javax.swing.JComboBox(algCmdObjLst);
-    	jGridSpcSlider1  = new javax.swing.JSlider();  // Grid Spacing Slider
-    	jSimTmStpSlider2 = new javax.swing.JSlider();  // Sim. Time Step Slider
-        jSlider3         = new javax.swing.JSlider();
-        jSlider4         = new javax.swing.JSlider();
+    	jComboBox1              = new javax.swing.JComboBox(algCmdObjLst);
+    	jGridSpcSlider1         = new javax.swing.JSlider();  // Grid Spacing Slider
+    	jSimTmStpSlider2        = new javax.swing.JSlider();  // Sim. Time Step Slider
+    	jPresDisRateSlider      = new javax.swing.JSlider();
+        jSlider4                = new javax.swing.JSlider();
        
     	
         jGridSpcLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -236,17 +261,15 @@ public class Demo extends JFrame {
         jGridSpcSlider1.setMaximum(180);                // max grid spacing
         jGridSpcSlider1.setMinimum(1);                  // min grid spacing  
         jGridSpcSlider1.setValue(15);                   // default grid spacing set to 14
-        jGridSpcSlider1.setMajorTickSpacing(30);        // because we are starting at 1 vs. 0 the slider tick values are off by 1 
-        jGridSpcSlider1.setPaintTicks(true);            // show the tick marks on the slider
-        jGridSpcSlider1.setPaintLabels(true);           // displa the tick values
+        jGridSpcSlider1.setMajorTickSpacing(30);
         
         jSimTmStpLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jSimTmStpLabel.setText("Simulation Time Step (50)");
         
         // simulation time step slider
-        jSimTmStpSlider2.setMaximum(1440);
+        jSimTmStpSlider2.setMaximum(525600);
         jSimTmStpSlider2.setMinimum(1);
-        jSimTmStpSlider2.setValue(50);
+        jSimTmStpSlider2.setValue(1440);
         
         jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jElapSimTmLabel4.setText("Elapsed Simulation Time (days, hours, minutes) 00:00:00");
@@ -274,22 +297,22 @@ public class Demo extends JFrame {
         jSlider6.setPaintTicks(false);
         jSlider6.setValue(10);
         
-        jSlider3.setMaximum(60);
-        jSlider3.setMinimum(1);
-        jSlider3.setPaintLabels(true);
-        jSlider3.setPaintTicks(true);
+        jPresDisRateSlider.setMaximum(60);
+        jPresDisRateSlider.setMinimum(1);
+        jPresDisRateSlider.setPaintLabels(false);
+        jPresDisRateSlider.setPaintTicks(false);
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel5.setText("Presentation Display Rate");
+        jPresDisRateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jPresDisRateLabel.setText("Presentation Display Rate");
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel6.setText("Buffer Size (1)");
-        jLabel8.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel8.setText("Maximum Iterations(10)");
+        jEndLocLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jEndLocLabel.setText("End Lat/Long");
+        jDurationLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jDurationLabel.setText("Duration");
 
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel7.setText("Simulation Rate(60)");
+        jSimRateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jSimRateLabel.setText("Simulation Rate(60)");
 
         
         
@@ -325,7 +348,7 @@ public class Demo extends JFrame {
         jSlider5.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event){
 
-        		jLabel7.setText("Simulation Rate(" + jSlider5.getValue() + ")" );	//TODO: should probably rename this slider and label
+        		jSimRateLabel.setText("Simulation Rate(" + jSlider5.getValue() + ")" );	//TODO: should probably rename this slider and label
 
         	}
 
@@ -334,17 +357,17 @@ public class Demo extends JFrame {
         jSlider6.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event){
 
-        		jLabel8.setText("Max Iterations(" + jSlider6.getValue() + ")" );	//TODO: should probably rename this slider and label
+        		//jLabel8.setText("Max Iterations(" + jSlider6.getValue() + ")" );	//TODO: should probably rename this slider and label
 
         	}
 
         });
 
       //change listener for Presentation 
-        jSlider3.addChangeListener(new ChangeListener() {
+        jPresDisRateSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event){
 
-        		jLabel5.setText("Presentation Display Rate(" + jSlider3.getValue() + ")" );	//TODO: should probably rename this slider and label
+        		jPresDisRateLabel.setText("Presentation Display Rate(" + jPresDisRateSlider.getValue() + ")" );	//TODO: should probably rename this slider and label
                 
         	}
 
@@ -354,7 +377,7 @@ public class Demo extends JFrame {
         jSlider4.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event){
 
-        		jLabel6.setText("Buffer Size (" + jSlider4.getValue() + ")" );	//TODO: should probably rename this slider and label
+        	//	jEndLocLabel.setText("Buffer Size (" + jSlider4.getValue() + ")" );	//TODO: should probably rename this slider and label
 
         	}
 
@@ -398,7 +421,7 @@ public class Demo extends JFrame {
 				jComboBox1.setEnabled(b);
 				jGridSpcSlider1.setEnabled(b);
 				jSimTmStpSlider2.setEnabled(b);
-				jSlider3.setEnabled(b);
+				jPresDisRateSlider.setEnabled(b);
 				jSlider4.setEnabled(b);
 				jSlider5.setEnabled(b);
 				jSlider6.setEnabled(b);
@@ -451,40 +474,190 @@ public class Demo extends JFrame {
         //Group layout aligns visual components along their respective horizontal and vertical axis' for a cleaner looking UI
  
         
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1Layout.setHorizontalGroup(
-        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(jPanel1Layout.createSequentialGroup()
-        			.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-        			.addComponent(jElapSimTmLabel4, GroupLayout.PREFERRED_SIZE, 340, GroupLayout.PREFERRED_SIZE))
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(jPanel1Layout.createSequentialGroup()
-        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(jElapSimTmLabel4)
-        				.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 58, Short.MAX_VALUE)
         );
-        jPanel1.setLayout(jPanel1Layout);
 
         jToggleButton1.setText("jToggleButton1");
 
-        jSlider3.setMaximum(60);
-        jSlider3.setMinimum(1);
-        jSlider3.setPaintLabels(true);
-        jSlider3.setPaintTicks(true);
-        jSlider3.setValue(3);
+        jPresDisRateSlider.setMaximum(60);
+        jPresDisRateSlider.setMinimum(1);
+        jPresDisRateSlider.setPaintLabels(false);
+        jPresDisRateSlider.setPaintTicks(false);
+        jPresDisRateSlider.setValue(3);
         jSlider4.setMaximum(1000);
         jSlider4.setMinimum(1);
         //jSlider4.setMinorTickSpacing(10);
         //jSlider4.setMajorTickSpacing(100);
         jSlider4.setPaintLabels(true);
-        jSlider4.setValue(1);
+        jSlider4.setValue(1000);
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
-        jLabel5.setText("Presentation Display Rate(3)");
+        jPresDisRateLabel.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        jPresDisRateLabel.setText("Presentation Display Rate(3)");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSimTmStpSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSlider5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPresDisRateSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jGridSpcSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(simulationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jQueryLabel)
+                                .addComponent(jPresDisRateLabel)
+                                .addComponent(jSimRateLabel)
+                                .addComponent(jSimTmStpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jGridSpcLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jStartLocLabel )
+                                        .addComponent(jEccentLabel)
+                                        .addComponent(jEccentText)
+                                        .addComponent(jStartLocText, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(16, 16, 16)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jEndLocText)
+                                        .addComponent(jTiltLabel)
+                                        .addComponent(jEndLocLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTiltText , javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(23, 23, 23)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jOrbitalPosLabel )
+                                        .addComponent(jDurationLabel )
+                                        .addComponent(jOrbitalPosText )
+                                        .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(0, 0, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jGridSpcLabel1)
+                .addGap(1, 1, 1)
+                .addComponent(jGridSpcSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSimTmStpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jSimTmStpSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSimRateLabel)
+                .addGap(1, 1, 1)
+                .addComponent(jSlider5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPresDisRateLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPresDisRateSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jEccentLabel)
+                    .addComponent(jTiltLabel)
+                    .addComponent(jOrbitalPosLabel ))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jEccentText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTiltText , javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jOrbitalPosText , javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jStartLocLabel)
+                    .addComponent(jEndLocLabel)
+                    .addComponent(jDurationLabel ))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jStartLocText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jEndLocText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jQueryLabel)
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(simulationButton)
+                    .addComponent(jToggleButton1))
+                .addGap(111, 111, 111))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(439, 439, 439)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRotPosLabel3.setText("Rotational Position: ###");
+
+        jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jElapSimTmLabel4.setText("Elapsed Simulation Time  ##:##:##");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jRotPosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 577, Short.MAX_VALUE)
+                .addComponent(jElapSimTmLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRotPosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jElapSimTmLabel4))
+                .addGap(0, 20, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(visualPlate);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 23, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -492,71 +665,24 @@ public class Demo extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jGridSpcLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSimTmStpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSimTmStpSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jGridSpcSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jSlider5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jSlider6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(simulationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    )
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jGridSpcLabel1)
-                        .addGap(1, 1, 1)
-                        .addComponent(jGridSpcSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSimTmStpLabel)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSimTmStpSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        //.addGap(18, 18, 18)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(simulationButton)
-                            .addComponent(jToggleButton1)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -579,7 +705,7 @@ public class Demo extends JFrame {
 		  settings.setConsumerThread(simSet.isConsumerThread());  //not available in the UI, pull from the settings object created from the cmd line
 		  settings.setProducerThread(simSet.isProducerThread()); //not available in the UI, pull from the settings object created from the cmd line
 		  settings.setTimeStep(jSimTmStpSlider2.getValue()); // was 1440/100
-		  settings.setPresentationRate(jSlider3.getValue());  //was 2
+		  settings.setPresentationRate(jPresDisRateSlider.getValue());  //was 2
 		  settings.setSimulationRate(jSlider5.getValue());
 		  settings.setSimulationIterations(jSlider6.getValue());
 		  //settings.setMasterProducer(true);
@@ -813,8 +939,6 @@ public class Demo extends JFrame {
 	// hooks into UI for Robot test Automation                     
     public static javax.swing.JButton simulationButton;
     public static javax.swing.JScrollPane jScrollPane1;
-    
-   
 }
 
 

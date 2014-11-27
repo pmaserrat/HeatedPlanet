@@ -10,18 +10,28 @@ public class EarthGrid {
 	private double sunLongitude;
 	private SimulationSettings settings;
 	private boolean isStable = false;
+	private double posX;
+	private double posY;
+	private double sunLat;
+	
+	
 	
 	public EarthGrid(){
 		tempGrid = null;
 		timestep = -1;
+	
 	}
 	
-	public EarthGrid(int timestep,double[][] grid, double sunLongitude, boolean isStable, SimulationSettings settings){
+	public EarthGrid(int timestep,double[][] grid, double sunLatin, double posXin, double posYin, double sunLongitude, boolean isStable, SimulationSettings settings){
 		this.tempGrid = grid;
 		this.timestep = timestep;
 		this.setSunLongitude(sunLongitude);
 		this.settings = settings;
 		this.isStable = isStable;
+		this.posX=posXin;
+		this.posY=posYin;
+		this.sunLat=sunLatin;
+		
 	}
 	
 	public void setTimestep(int timestep){
@@ -110,5 +120,29 @@ public class EarthGrid {
 			return new Double(angle);
 		}
 		return null;
+	}
+
+	public double getPosX() {
+		return posX;
+	}
+
+	public void setPosX(double posX) {
+		this.posX = posX;
+	}
+
+	public double getPosY() {
+		return posY;
+	}
+
+	public void setPosY(double posY) {
+		this.posY = posY;
+	}
+
+	public double getSunLat() {
+		return sunLat;
+	}
+
+	public void setSunLat(double sunLat) {
+		this.sunLat = sunLat;
 	}
 }

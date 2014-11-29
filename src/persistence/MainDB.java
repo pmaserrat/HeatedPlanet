@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
@@ -156,9 +157,14 @@ public class MainDB {
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "INSERT into SIMULATION name=" + name + ",simsetname="
-					+ name + "SS,invsetname=" + name + "IS,physicalname=" 
-					+ name + "P,gridname=" + name + "G";
+			String simsetname = name + "SS";
+			String invsetname = name + "IS";
+			String physicalname = name + "P";
+			String gridname = name + "G";
+			String sql = "INSERT into SIMULATION values ("
+					+ name + "," + simsetname + "," + invsetname
+					+ "," + physicalname + "," + gridname + ")";
+					
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -173,8 +179,8 @@ public class MainDB {
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "INSERT into PHYSTICALFACTORS name=" + physname + ",axialtilt="
-					+ tilt + ",eccentricity=" + eccentricity;
+			String sql = "INSERT into PHYSTICALFACTORS (" + physname 
+					+ "," + tilt + "," + eccentricity + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -191,8 +197,9 @@ public class MainDB {
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "INSERT into SIMULATIONSETTINGS name=" + settingsname + ",gridspacing="
-					+ spacing + ",timestep=" + timeStep + ",SimulationLength=" + length;
+			String sql = "INSERT into SIMULATIONSETTINGS ("
+					+ settingsname + "," + spacing + "," + timeStep
+					+ "," + length + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -207,8 +214,9 @@ public class MainDB {
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "INSERT into INVOCATIONSETTINGS name=" + invname + ",precisions="
-					+ precision + ",geographic=" + geographic + ",temporal=" + temporal;
+			String sql = "INSERT into INVOCATIONSETTINGS ("
+					+ invname + "," + precision + "," + geographic + ","
+					+ temporal + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -224,9 +232,10 @@ public class MainDB {
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "INSERT into GRID name=" + gridname + ",readingdate="
-					+ date + ",readingtime=" + time + ",latitude=" + lat
-					+ ",longitude=" + lon + ",temperature=" + temp;
+			String sql = "INSERT into GRID ("
+					+ name + "," + date + "," + time + "," + lat + ","
+					+ lon + "," + temp + ")";
+					
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -234,17 +243,31 @@ public class MainDB {
 		}
 	}
 	
-	public void readSimulations(String name, int tilt, double eccentricity){
+	public String readSimulations(String name, int tilt, double eccentricity){
 		Statement stmt = null;
+		String result = "";
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "";
-			stmt.executeUpdate(sql);
+			String sql = "SELECT * from SIMULATION where name=" + name; 
+					
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if(rs.next()){
+				sql = "SELECT * from PHYSICALFACTORS where name=" + name
+				+ "P and axialtilt=" + tilt + "and eccentricity=" + eccentricity;
+				ResultSet rs1 = stmt.executeQuery(sql);
+				while(rs1.next()){
+					result += rs.getString("name") + " " + rs.getString("axialtilt") 
+							+ " " + rs.getString("eccentricity");
+				}
+				
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return result;
 	}
 }

@@ -167,23 +167,84 @@ public class MainDB {
 	}
 	
 	public void addPhysical(String name, int tilt, double eccentricity){
+		String physname = name + "P";
+		Statement stmt = null;
+		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "INSERT into PHYSTICALFACTORS name=" + physname + ",axialtilt="
+					+ tilt + ",eccentricity=" + eccentricity;
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
 	public void addSimSettings(String name, int spacing, int timeStep, int length){
+		String settingsname = name + "SS";
+		Statement stmt = null;
 		
+		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "INSERT into SIMULATIONSETTINGS name=" + settingsname + ",gridspacing="
+					+ spacing + ",timestep=" + timeStep + ",SimulationLength=" + length;
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void addInvSettings(String name, int precision, int geographic, int temporal){
+		String invname = name + "IS";
+		Statement stmt = null;
 		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "INSERT into INVOCATIONSETTINGS name=" + invname + ",precisions="
+					+ precision + ",geographic=" + geographic + ",temporal=" + temporal;
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
 	public void addGrid(String name, Calendar date, Calendar time, int lat, int lon, double temp){
+		String gridname = name + "G";
+		Statement stmt = null;
 		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "INSERT into GRID name=" + gridname + ",readingdate="
+					+ date + ",readingtime=" + time + ",latitude=" + lat
+					+ ",longitude=" + lon + ",temperature=" + temp;
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void readSimulations(String name, int tilt, double eccentricity){
+		Statement stmt = null;
 		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "";
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

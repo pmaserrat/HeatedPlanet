@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -29,9 +29,7 @@ import ActiveObject.SimulationEngineServant;
 import ActiveObject.SimulationPresenterServant;
 
 import java.awt.Dimension;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
 
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
@@ -88,7 +86,7 @@ public class Demo extends JFrame {
 	private EarthPanel visualPlate;
 	
 	// these controls are being made public so the GUI Robot can hook into the App
-	public static javax.swing.JComboBox jComboBox1;                      // Initiative drop down combo
+	public static JComboBox             jComboBox1;                      // Initiative drop down combo
 	public static JSlider               jGridSpcSlider1 ;                //  grid spacing slider selector
 	public static JSlider               jSimTmStpSlider2;                //  Simulation Time Step Slider selector
 	public static JSlider               jPresDisRateSlider ;                       //  Presentation Display Rate
@@ -122,8 +120,7 @@ public class Demo extends JFrame {
     private JLabel    jDurationLabel       = new javax.swing.JLabel();        // Duration Label
     private JLabel    jOrbitalPosLabel     = new javax.swing.JLabel();        // Orbital Position Label
     
-    private JTextArea  jTextArea2          = new javax.swing.JTextArea();  
-    
+        
     private JTextField jEccentText         = new javax.swing.JTextField();    // Eccentricity TextField
     private JTextField jTiltText           = new javax.swing.JTextField();    // Obliquity TextField
     private JTextField jStartLocText       = new javax.swing.JTextField();    // Start Latitude/Longitude TextField
@@ -133,9 +130,9 @@ public class Demo extends JFrame {
     
     
     
-    private TempEarthGrid tempgrid;
+    //private TempEarthGrid tempgrid;
     
-    private EarthSurface       es;
+   //private EarthSurface       es;
     private SimulationSettings simSet     = new SimulationSettings();
     private Proxy proxy = null;
     private SimulationBuffer buffer = null;
@@ -302,15 +299,12 @@ public class Demo extends JFrame {
         jSimRateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jSimRateLabel.setText("Simulation Rate(60)");
         
-        //private JLabel    jPresDisRateLabel    = new javax.swing.JLabel();  // Presentation Display rate Label
-        //private JLabel    jEndLocLabel         = new javax.swing.JLabel();  // End latitude/longitude Label
-        //private JLabel    jSimRateLabel        = new javax.swing.JLabel();  // Simulation Rate Label
-        //private JLabel    jStartLocLabel       = new javax.swing.JLabel();  // Start latitude/longitude Label
-        //private JLabel    jQueryLabel          = new javax.swing.JLabel();  // Query box Label
-        //private JLabel    jEccentLabel         = new javax.swing.JLabel();  // Eccentricity Label
-        //private JLabel    jTiltLabel           = new javax.swing.JLabel();  // Obliguity Label   
-        //private JLabel    jDurationLabel       = new javax.swing.JLabel();      // Duration Label
-        //private JLabel    jOrbitalPosLabel     = new javax.swing.JLabel();      // Orbital Position Label
+        jEccentText.setText(Double.toString(simSet.getEccentricity()));
+        jTiltText.setText(Double.toString(simSet.getObliquity()));
+        
+        
+        
+       
               
         
         /*************Register GUI Component Listeners *****************/
@@ -737,6 +731,7 @@ public class Demo extends JFrame {
     	  visualPlate.updateGrid(new TempEarthGrid(grid.getTempGrid()));
     	  visualPlate.moveSunPosition((float) grid.getSunLongitude());
     	  jRotPosLabel3.setText("Rotational Position: " + grid.getSunLongitude());
+    	  jOrbitalPosText.setText( "(" + Double.toString(Math.round(grid.getPosX()*100)/100 ) + " , " + Double.toString(Math.round(grid.getPosY()* 100)/100) + ")" ) ;
     	  //create hours and minutes from longitude
     	  //the 15 is the fact that every 15 degrees of longitude then 1 hour has elapsed.  so integer divide the longitude by 
     	  //15 and you have the elapsed hour.  The minutes though are the fraction of that degrees.  That is proportional to the 

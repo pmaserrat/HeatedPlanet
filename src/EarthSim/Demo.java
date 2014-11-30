@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -31,9 +30,11 @@ import ActiveObject.SimulationPresenterServant;
 import java.awt.Dimension;
 
 
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.Font;
 
 /********************************************************************************************* 
@@ -426,6 +427,8 @@ public class Demo extends JFrame {
 				jSlider4.setEnabled(b);
 				jSlider5.setEnabled(b);
 				jSlider6.setEnabled(b);
+				jEccentText.setEnabled(b);
+			    jTiltText.setEnabled(b);
 			}
 
         });
@@ -769,8 +772,10 @@ public class Demo extends JFrame {
     	  jElapSimTmLabel4.setText(String.format("Elapsed Simulation Time: %02d:%02d:%02d", days, hours, minutes));
           lastHour = hours;
           curIteration++;
-          
-          
+          System.out.println("Eccentricity_simSet =" + simSet.getEccentricity());
+          System.out.println("Tilt_simSet  =" + simSet.getObliquity());
+          System.out.println("Eccentricity_settings =" + settings.getEccentricity());
+          System.out.println("Tilt_settings  =" + settings.getObliquity());
        
     }
     

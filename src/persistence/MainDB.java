@@ -350,6 +350,7 @@ public class MainDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			if(rs.next()){
+				Boolean yes = false;
 				sql = "SELECT * from PHYSICALFACTORS where name=" + name
 				+ "P and axialtilt=" + tilt + "and eccentricity=" + eccentricity;
 				ResultSet rs1 = stmt.executeQuery(sql);
@@ -357,7 +358,16 @@ public class MainDB {
 					result += rs.getString("name") + " " + rs.getString("axialtilt") 
 							+ " " + rs.getString("eccentricity");
 					
-					
+					yes = true;
+				}
+				if (yes){
+					sql = "SELECT * from GRID where name=" + name + "G";
+					ResultSet rs2 = stmt.executeQuery(sql);
+					while(rs2.next()){
+						result += rs.getString("name") + " " + rs.getString("readingdate") + " "
+								+ rs.getString("readingtime") + " " + rs.getString("latitude") + " "
+								+ rs.getString("longitude") + " " + rs.getString("temperature") + "\n";
+					}
 				}
 				
 			}

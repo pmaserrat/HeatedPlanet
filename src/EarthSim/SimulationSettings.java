@@ -6,6 +6,10 @@ public class SimulationSettings {
     private int timeStep = 1; //number of minutes
     private double angularVelocity = 0.25; //Starts with timestep 1 minute
     private int bufferSize = 1000;
+    private int mPercision = 6;
+    private int mGeoPercision = 100;
+    private int mDuration =12;
+    private int mTemporalPercision = 100;
     private boolean masterConsumer = false;
 	private boolean masterProducer = true;
 	private boolean masterController = false;
@@ -14,10 +18,10 @@ public class SimulationSettings {
 	private int presentationRate = 60;
 	private int simulationRate = 60;
 	private int simulationIterations = 1000000;
-	//private double eccentricity = .0167; //default value
-	//private double obliquity = 23.44; //default value
-	private double eccentricity;// = 0.0; //default value
-	private double obliquity;// = 0.0; //default value
+	private double eccentricity = .0167; //default value
+	private double obliquity = 23.44; //default value
+	//private double eccentricity;// = 0.0; //default value
+	//private double obliquity;// = 0.0; //default value
 	private String name;
     public SimulationSettings(){
 
@@ -192,5 +196,46 @@ public class SimulationSettings {
 		if (obliquity >=-180 && obliquity <=180){
 			this.obliquity = obliquity;}
 	}
+	
+	public double getPercision() {
+		
+		return mPercision; 
+	}
 
+	public void setPercision(int percision) {
+		if (percision >=0 && percision <=15){
+			this.mPercision = percision;}
+	}
+	
+    public double getGeoPercision() {
+		
+		return mGeoPercision; 
+	}
+
+	public void setGeoPercision(int percision) {
+		if (percision >=0 && percision <=100){
+			this.mGeoPercision = percision;}
+	}
+	
+    public double getTemporalPercision() {
+		
+		return mTemporalPercision; 
+	}
+
+	public void setTemporalPercision(int percision) {
+		if (percision >=0 && percision <=100){
+			this.mTemporalPercision = percision;}
+	}
+	
+	 public int getDuration() {
+			
+			return mDuration; 
+		}
+
+		public void setDuration(int solarMonths) {
+			if (solarMonths >=1 && solarMonths <=1200){
+				this.mDuration = solarMonths;}
+		}
+
+	
 }

@@ -367,6 +367,22 @@ public class Demo extends JFrame {
         	}
 
         });
+        
+        jEccentText.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        	simSet.setEccentricity(Double.valueOf(jEccentText.getText()));
+        	}
+        	
+         });
+        
+        jTiltText.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        	simSet.setObliquity(Double.valueOf(jTiltText.getText()));
+        	}
+        	
+         });
        
         //Run Simulation Button ActionListener 
         simulationButton.addActionListener(new ActionListener() {
@@ -540,22 +556,21 @@ public class Demo extends JFrame {
         	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(jPanel1Layout.createSequentialGroup()
         			.addContainerGap()
-        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(jPanel5, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-        				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jPanel5, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+        				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
         			.addGap(18))
         );
         jPanel1Layout.setVerticalGroup(
         	jPanel1Layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jPanel1Layout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE)
-        			.addGap(29)
+        			.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 252, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
         			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(236, Short.MAX_VALUE))
+        			.addContainerGap(270, Short.MAX_VALUE))
         );
         panel.setLayout(null);
-        jEccentLabel.setBounds(10, 11, 66, 14);
+        jEccentLabel.setBounds(10, 11, 108, 14);
         panel.add(jEccentLabel);
         
         jEccentLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -575,14 +590,14 @@ public class Demo extends JFrame {
         panel.add(jTiltText);
         jOrbitalPosText.setBounds(240, 33, 99, 20);
         panel.add(jOrbitalPosText);
-               jOrbitalPosLabel.setBounds(240, 15, 86, 14);
+               jOrbitalPosLabel.setBounds(240, 15, 99, 14);
                panel.add(jOrbitalPosLabel);
         
                jOrbitalPosLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
                jOrbitalPosLabel.setText("Orbital Position");
                jOrbitalPosLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
                jOrbitalPosLabel.setText("Orbital Position");
-               jStartLocLabel.setBounds(10, 64, 93, 14);
+               jStartLocLabel.setBounds(10, 64, 108, 14);
                panel.add(jStartLocLabel);
                jStartLocLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
                jStartLocLabel.setText("Start(Lat, Long)");
@@ -590,18 +605,18 @@ public class Demo extends JFrame {
                jStartLocLabel.setText("Start (Lat, Long)");
                jStartLocText.setBounds(10, 84, 107, 20);
                panel.add(jStartLocText);
-               jEndLocText.setBounds(126, 84, 91, 20);
+               jEndLocText.setBounds(126, 84, 94, 20);
                panel.add(jEndLocText);
-                       jEndLocLabel.setBounds(126, 64, 84, 14);
+                       jEndLocLabel.setBounds(126, 64, 99, 14);
                        panel.add(jEndLocLabel);
                
                        jEndLocLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
                        jEndLocLabel.setText("End (Lat, Long)");
-                       jDurationLabel.setBounds(238, 64, 49, 14);
+                       jDurationLabel.setBounds(238, 64, 101, 14);
                        panel.add(jDurationLabel);
                        jDurationLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
                        jDurationLabel.setText("Duration");
-                       jDurationText.setBounds(238, 84, 98, 20);
+                       jDurationText.setBounds(238, 84, 101, 20);
                        panel.add(jDurationText);
         jPanel1.setLayout(jPanel1Layout);
 
@@ -622,9 +637,9 @@ public class Demo extends JFrame {
                                 	jPanel2Layout.createParallelGroup(Alignment.LEADING)
                                 		.addGroup(jPanel2Layout.createSequentialGroup()
                                 			.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-                                			.addPreferredGap(ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+                                			.addPreferredGap(ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
                                 			.addComponent(jElapSimTmLabel4, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-                                			.addContainerGap())
+                                			.addGap(52))
                                 );
                                 jPanel2Layout.setVerticalGroup(
                                 	jPanel2Layout.createParallelGroup(Alignment.LEADING)

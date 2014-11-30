@@ -821,7 +821,7 @@ public class Demo extends JFrame {
 	  	  String dateString = date1.toString();
 	  		
 	  	  db = new MainDB();
-	  		
+	  	  simSet.setSimulationName(dateString);	
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
 	  				simSet.getSimulationIterations());

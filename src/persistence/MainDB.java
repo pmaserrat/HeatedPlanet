@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.Date;
 
 import EarthSim.EarthGrid;
 
@@ -425,6 +426,7 @@ public class MainDB {
 		// TODO Auto-generated method stub
 		String gridname = name + "G";
 		PreparedStatement stmt = null;
+		double gridtemp[][] = grid.getTempGrid();
 		for (int i = 0; i < grid.getTempGridHeight();i++){
 			for(int j = 0; j < grid.getTempGridWidth(); i++){
 		
@@ -435,7 +437,22 @@ public class MainDB {
 		//					+ gridname + "," + date + "," + time + "," + x + ","
 		//					+ y + "," + temp + ")";
 					
-							
+					Calendar cal = Calendar.getInstance();
+					Date day = cal.getTime();
+					String date = day.toString();
+					Long timel = cal.getTimeInMillis();
+					String time = timel.toString();
+					int x = (int)grid.getPosX();
+					int y = (int)grid.getPosY();
+					double temp = gridtemp[i][j];
+					StringBuffer sql = new StringBuffer("insert into GRID values(?,?,?,?,?,?)");
+					stmt = conn.prepareStatement(sql.toString());
+					stmt.setString(1, gridname);
+					stmt.setString(2, date);
+					stmt.setString(3, time);
+					stmt.setInt(4, x);
+					stmt.setInt(5, y);
+					stmt.setDouble(6, temp);
 					stmt.executeUpdate();
 				} catch (SQLException e) {
 					

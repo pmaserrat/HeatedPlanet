@@ -3,6 +3,7 @@ package persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
@@ -264,6 +265,34 @@ public class MainDB {
 				}
 				
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public String readQuery(String query){
+		Statement stmt = null;
+		String result = "";
+		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql = query; 
+					
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			
+				while(rs.next()){
+					for (int i = 0; i<rsmd.getColumnCount(); i++)
+						result += rs.getString(i);
+					result += "/n";
+				}
+				
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

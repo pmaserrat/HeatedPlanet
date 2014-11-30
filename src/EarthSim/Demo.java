@@ -46,7 +46,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import persistence.MainDB;
+
 import java.awt.Font;
+import java.util.Calendar;
 
 /********************************************************************************************* 
  * @author Team 9
@@ -140,7 +143,7 @@ public class Demo extends JFrame {
     private JTextField jDurationText       = new javax.swing.JTextField();    // Simulation Duration TextField
     private JTextField jOrbitalPosText     = new javax.swing.JTextField();    // Orbital Position TextField
     
-    
+    private MainDB db;
     
     //private TempEarthGrid tempgrid;
     
@@ -810,6 +813,26 @@ public class Demo extends JFrame {
 		  //settings.setMasterProducer(true);
 		  //settings.setMasterConsumer(false);
 		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
+		  
+    	  
+    	  Calendar date = Calendar.getInstance();
+  		
+	  	  Long date1 = date.getTimeInMillis();
+	  	  String dateString = date1.toString();
+	  		
+	  	  db = new MainDB();
+	  		
+	  	  db.addSimulation(dateString);
+	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
+	  				simSet.getSimulationIterations());
+	
+	  	  db.addPhysical(dateString, (int)simSet.getObliquity(), simSet.getEccentricity());
+	  	  int precision = 4;
+	  	  int geographic = 100;
+	  	  int temporal = 100;
+	  	  db.addInvSettings(dateString, precision, geographic, temporal);
+	  	 
+
 		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();
 		  pc = new MasterProducer();

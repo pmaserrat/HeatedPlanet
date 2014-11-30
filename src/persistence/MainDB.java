@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -153,73 +154,152 @@ public class MainDB {
 	// add the name to Simulation table and keys to other tables
 	public void addSimulation(String name){
 		
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
-			stmt = conn.createStatement();
+			//stmt = conn.createStatement();
 			String simsetname = name + "SS";
 			String invsetname = name + "IS";
 			String physicalname = name + "P";
 			String gridname = name + "G";
-			String sql = "INSERT into SIMULATION values ("
-					+ name + "," + simsetname + "," + invsetname
-					+ "," + physicalname + "," + gridname + ")";
+//			String sql = "INSERT into SIMULATION values ('"
+//					+ name + "','" + simsetname + "','" + invsetname
+//					+ "','" + physicalname + "','" + gridname + ")";
+			StringBuffer sql = new StringBuffer("insert into SIMULATION values(?,?,?,?,?)");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, name);
+			stmt.setString(2, simsetname);
+			stmt.setString(3, invsetname);
+			stmt.setString(4, physicalname);
+			stmt.setString(5, gridname);
 					
-			stmt.executeUpdate(sql);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 	}
 	
 	public void addPhysical(String name, int tilt, double eccentricity){
 		String physname = name + "P";
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql = "INSERT into PHYSTICALFACTORS (" + physname 
-					+ "," + tilt + "," + eccentricity + ")";
-			stmt.executeUpdate(sql);
+//			stmt = conn.createStatement();
+//			String sql = "INSERT into PHYSTICALFACTORS (" + physname 
+//					+ "," + tilt + "," + eccentricity + ")";
+			StringBuffer sql = new StringBuffer("insert into PHYSICALFACTORS values(?,?,?)");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, physname);
+			stmt.setInt(2, tilt);
+			stmt.setDouble(3, eccentricity);
+			
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 		
 	}
 	
 	public void addSimSettings(String name, int spacing, int timeStep, int length){
 		String settingsname = name + "SS";
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql = "INSERT into SIMULATIONSETTINGS ("
-					+ settingsname + "," + spacing + "," + timeStep
-					+ "," + length + ")";
-			stmt.executeUpdate(sql);
+			//stmt = conn.createStatement();
+//			String sql = "INSERT into SIMULATIONSETTINGS ("
+//					+ settingsname + "," + spacing + "," + timeStep
+//					+ "," + length + ")";
+			StringBuffer sql = new StringBuffer("insert into SIMULATIONSETTINGS values(?,?,?,?)");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, settingsname);
+			stmt.setInt(2, spacing);
+			stmt.setInt(3, timeStep);
+			stmt.setInt(4, length);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 	}
 	
 	public void addInvSettings(String name, int precision, int geographic, int temporal){
 		String invname = name + "IS";
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql = "INSERT into INVOCATIONSETTINGS ("
-					+ invname + "," + precision + "," + geographic + ","
-					+ temporal + ")";
-			stmt.executeUpdate(sql);
+//			stmt = conn.createStatement();
+//			String sql = "INSERT into INVOCATIONSETTINGS ("
+//					+ invname + "," + precision + "," + geographic + ","
+//					+ temporal + ")";
+			
+			StringBuffer sql = new StringBuffer("insert into INVOCATIONSETTINGS values(?,?,?,?)");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, invname);
+			stmt.setInt(2, precision);
+			stmt.setInt(3, geographic);
+			stmt.setInt(4, temporal);
+			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 		
 	}
@@ -239,6 +319,19 @@ public class MainDB {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 	}
 	
@@ -266,6 +359,19 @@ public class MainDB {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 		return result;
 	}
@@ -294,6 +400,19 @@ public class MainDB {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
 		}
 		return result;
 	}

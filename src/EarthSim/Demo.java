@@ -254,7 +254,7 @@ public class Demo extends JFrame {
         jGridSpcSlider1.setMajorTickSpacing(30);
         
         jSimTmStpLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jSimTmStpLabel.setText("Simulation Time Step (50)");
+        jSimTmStpLabel.setText("Simulation Time Step (1440)");
         
         // simulation time step slider
         jSimTmStpSlider2.setMaximum(525600);
@@ -262,7 +262,7 @@ public class Demo extends JFrame {
         jSimTmStpSlider2.setValue(1440);
         
         jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jElapSimTmLabel4.setText("Elapsed Simulation Time (days, hours, minutes) 00:00:00");
+        jElapSimTmLabel4.setText("Elapsed Simulation Time: 00:00:00");
         
         jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRotPosLabel3.setText("Rotational Position: 00.0");
@@ -607,11 +607,9 @@ public class Demo extends JFrame {
 
         jScrollPane1.setViewportView(visualPlate);
         
-        jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jElapSimTmLabel4.setText("Elapsed Simulation Time (days, hours, minutes) 00:00:00");
         
-        jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jRotPosLabel3.setText("Rotational Position: 00.0");
+        
+       
         
                 jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
                 jRotPosLabel3.setText("Rotational Position: ###");
@@ -754,7 +752,7 @@ public class Demo extends JFrame {
     	  int hours = in360 / 15;
     	  if (hours < lastHour) days+=1;
     	  int minutes = Math.abs((int)(60.0 * (grid.getSunLongitude() % 15.0 / 15.0)));
-    	  jElapSimTmLabel4.setText(String.format("Elapsed Simulation Time (days, hours, minutes)  %02d:%02d:%02d", days, hours, minutes));
+    	  jElapSimTmLabel4.setText(String.format("Elapsed Simulation Time: %02d:%02d:%02d", days, hours, minutes));
           lastHour = hours;
           curIteration++;
           

@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -15,6 +16,8 @@ import javax.swing.JToggleButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import gui.widget.earth.EarthPanel;
 import gui.widget.earth.TempEarthGrid;
@@ -22,12 +25,19 @@ import gui.widget.earth.TempEarthGrid;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import ActiveObject.Proxy;
 import ActiveObject.SimulationEngineServant;
 import ActiveObject.SimulationPresenterServant;
 
 import java.awt.Dimension;
+
+
+
+
+
 
 
 
@@ -380,6 +390,43 @@ public class Demo extends JFrame {
         	
          });
         
+        jEccentText.addFocusListener(new FocusListener(){
+        
+       
+                @Override
+                public void focusLost(FocusEvent e) {
+                    
+                    if(!validEccInput()){
+                    	
+                    	JOptionPane.showMessageDialog(null,
+                                "Error:  a valid eccentricity value must be between 0 and 1.0",
+                                "Invalid Value Specified", JOptionPane.ERROR_MESSAGE);
+                             jEccentText.setText("0.0617");  //dbl chk this value
+                        
+                    }
+                }
+                public boolean validEccInput() {
+                    if ( (Double.valueOf(jEccentText.getText()) < 0) || (Double.valueOf(jEccentText.getText()) >1.0)) {
+                      return false;
+                    }
+                    return true;
+                 }
+                
+				@Override
+				public void focusGained(FocusEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				} 
+                
+            });
+        
+
+
+
+         
+       
+        
+        
         jTiltText.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent ae)
         	{
@@ -389,6 +436,37 @@ public class Demo extends JFrame {
         	}
         	
          });
+        
+        jTiltText.addFocusListener(new FocusListener(){
+            
+            
+            @Override
+            public void focusLost(FocusEvent te) {
+                
+                if(!validTiltInput()){
+                	
+                	JOptionPane.showMessageDialog(null,
+                            "Error: The valid Obliquity value must be between -180.00 and 180.00",
+                            "Invalid Value Specified", JOptionPane.ERROR_MESSAGE);
+                         jTiltText.setText("23.44");  //dbl chk this default value
+                    
+                }
+            }
+            public boolean validTiltInput() {
+                if ( (Double.valueOf(jTiltText.getText()) >= -180.00) && (Double.valueOf(jTiltText.getText()) <= 180.00)) {
+                  return true;
+                }
+                return false;
+             }
+            
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			} 
+            
+        });
+        
        
         //Run Simulation Button ActionListener 
         simulationButton.addActionListener(new ActionListener() {
@@ -396,6 +474,9 @@ public class Demo extends JFrame {
         		
         		if (simulationButton.getText().contains("Run"))
         		{
+        			simSet.setEccentricity(Double.valueOf(jEccentText.getText()));
+        			simSet.setObliquity(Double.valueOf(jTiltText.getText()));
+        			
 					//System.out.println("Starting");
 					RunSimOK = true;	
 					simulationButton.setText("Stop Simulation");
@@ -708,7 +789,7 @@ public class Demo extends JFrame {
     
     
     private void setupNewSimulation(){
-    	  simSet= new SimulationSettings();  //reducing the "smell" from having  multiple simulation settings
+    	//  simSet= new SimulationSettings();  //reducing the "smell" from having  multiple simulation settings
 //    	  Values in order in the combo box
 //    	  Scheduler(Master) has Initiative
 //    	  Simulation(Producer) has Initiative
@@ -779,6 +860,8 @@ public class Demo extends JFrame {
           curIteration++;
           System.out.println("Eccentricity_simSet =" + simSet.getEccentricity());
           System.out.println("Tilt_simSet  =" + simSet.getObliquity());
+          System.out.println("gridSpacing_simSet  =" + simSet.getGridSpacing());
+        
           //System.out.println("Eccentricity_settings =" + settings.getEccentricity());
           //System.out.println("Tilt_settings  =" + settings.getObliquity());
        

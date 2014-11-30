@@ -5,7 +5,7 @@ public class SimulationSettings {
     private int gridSpacing = 15; //number of degrees
     private int timeStep = 1; //number of minutes
     private double angularVelocity = 0.25; //Starts with timestep 1 minute
-    private int bufferSize = 10;
+    private int bufferSize = 1000;
     private boolean masterConsumer = false;
 	private boolean masterProducer = true;
 	private boolean masterController = false;
@@ -14,10 +14,10 @@ public class SimulationSettings {
 	private int presentationRate = 60;
 	private int simulationRate = 60;
 	private int simulationIterations = 1000000;
-	private double eccentricity = .0167; //default value
-	private double obliquity = 23.44; //default value
-	
-
+	//private double eccentricity = .0167; //default value
+	//private double obliquity = 23.44; //default value
+	private double eccentricity;// = 0.0; //default value
+	private double obliquity;// = 0.0; //default value
     public SimulationSettings(){
 
     }

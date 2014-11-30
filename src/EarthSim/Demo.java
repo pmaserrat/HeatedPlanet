@@ -137,7 +137,7 @@ public class Demo extends JFrame {
     private SimulationSettings simSet     = new SimulationSettings();
     private Proxy proxy = null;
     private SimulationBuffer buffer = null;
-    private SimulationSettings settings = null;
+    //private SimulationSettings settings = null;
     private MasterControl mc = null;
     private MasterProducer pc = null;
     private Thread nonGUIThread = null;
@@ -399,8 +399,8 @@ public class Demo extends JFrame {
 					  
 					setupNewSimulation();
 					
-					if(settings.isMasterController()){
-						 
+					//if(settings.isMasterController()){
+					if(simSet.isMasterController()){	 
 					}
 					setUIState(false);
         		}  
@@ -703,41 +703,41 @@ public class Demo extends JFrame {
     
     
     private void setupNewSimulation(){
-    	  settings = new SimulationSettings();
+    	  simSet= new SimulationSettings();  //reducing the "smell" from having  multiple simulation settings
 //    	  Values in order in the combo box
 //    	  Scheduler(Master) has Initiative
 //    	  Simulation(Producer) has Initiative
 //    	  Presentation(Consumer) has Initiative
-		  settings.setMasterController(jComboBox1.getSelectedIndex() == 0);  //was true
-		  settings.setMasterProducer(jComboBox1.getSelectedIndex() == 1);  //was false
-		  settings.setMasterConsumer(jComboBox1.getSelectedIndex() == 2);  //was false
+    	  simSet.setMasterController(jComboBox1.getSelectedIndex() == 0);  //was true
+    	  simSet.setMasterProducer(jComboBox1.getSelectedIndex() == 1);  //was false
+    	  simSet.setMasterConsumer(jComboBox1.getSelectedIndex() == 2);  //was false
 		  
 		  //System.out.println(settings.isMasterConsumer()+" " + settings.isMasterProducer() + " " + settings.isMasterController());
-		  settings.setGridSpacing(jGridSpcSlider1.getValue());
+    	  simSet.setGridSpacing(jGridSpcSlider1.getValue());
 		  
-		  settings.setConsumerThread(simSet.isConsumerThread());  //not available in the UI, pull from the settings object created from the cmd line
-		  settings.setProducerThread(simSet.isProducerThread()); //not available in the UI, pull from the settings object created from the cmd line
-		  settings.setTimeStep(jSimTmStpSlider2.getValue()); // was 1440/100
-		  settings.setPresentationRate(jPresDisRateSlider.getValue());  //was 2
-		  settings.setSimulationRate(jSlider5.getValue());
-		  settings.setSimulationIterations(jSlider6.getValue());
+    	  simSet.setConsumerThread(simSet.isConsumerThread());  //not available in the UI, pull from the settings object created from the cmd line
+    	  simSet.setProducerThread(simSet.isProducerThread()); //not available in the UI, pull from the settings object created from the cmd line
+    	  simSet.setTimeStep(jSimTmStpSlider2.getValue()); // was 1440/100
+    	  simSet.setPresentationRate(jPresDisRateSlider.getValue());  //was 2
+    	  simSet.setSimulationRate(jSlider5.getValue());
+    	  simSet.setSimulationIterations(jSlider6.getValue());
 		  //settings.setMasterProducer(true);
 		  //settings.setMasterConsumer(false);
 		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
-		  proxy = new Proxy(settings,buffer);
+		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();
 		  pc = new MasterProducer();
 		  days=0;
-		  updateDisplay(new EarthSurface(settings).getEarthGrid());
-		  if(settings.isMasterController() || (!settings.isConsumerThread() && !settings.isProducerThread())){
+		  updateDisplay(new EarthSurface(simSet).getEarthGrid());
+		  if(simSet.isMasterController() || (!simSet.isConsumerThread() && !simSet.isProducerThread())){
 			  visualPlate.reset();
-			  SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, buffer);
+			  SimulationPresenterServant p = SimulationPresenterServant.getInstance(simSet, buffer);
 			  p.giveGUI(this);
 			  
 			  proxy.startScheduler();
 			  mc.start();
 		  } else {
-			  SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, buffer);
+			  SimulationPresenterServant p = SimulationPresenterServant.getInstance(simSet, buffer);
 			  p.giveGUI(this);
 			  nonGUIThread = new Thread(){
 				  public void run(){
@@ -774,8 +774,8 @@ public class Demo extends JFrame {
           curIteration++;
           System.out.println("Eccentricity_simSet =" + simSet.getEccentricity());
           System.out.println("Tilt_simSet  =" + simSet.getObliquity());
-          System.out.println("Eccentricity_settings =" + settings.getEccentricity());
-          System.out.println("Tilt_settings  =" + settings.getObliquity());
+          //System.out.println("Eccentricity_settings =" + settings.getEccentricity());
+          //System.out.println("Tilt_settings  =" + settings.getObliquity());
        
     }
     
@@ -803,13 +803,13 @@ public class Demo extends JFrame {
     					} catch (InterruptedException e) {}
     				}
     			}
-    			if(settings.isMasterController()){
+    			if(simSet.isMasterController()){
     				proxy.produceEarthGrid();
     				proxy.consumeEarthGrid();
     			}
     			
  				try{
- 					Thread.sleep(1000/settings.getPresentationRate());
+ 					Thread.sleep(1000/simSet.getPresentationRate());
  				} catch (InterruptedException e){}
     		}
     	}
@@ -847,24 +847,24 @@ public class Demo extends JFrame {
 
     class MasterProducer implements Runnable{
     	
-    	SimulationPresenterServant c = SimulationPresenterServant.getInstance(settings, buffer);
-    	SimulationEngineServant p = SimulationEngineServant.getInstance(settings, buffer);
+    	SimulationPresenterServant c = SimulationPresenterServant.getInstance(simSet, buffer);
+    	SimulationEngineServant p = SimulationEngineServant.getInstance(simSet, buffer);
     	boolean isRunning = false;
     	
     	public void start(){
-    		if(settings.isConsumerThread() && settings.isProducerThread()){
+    		if(simSet.isConsumerThread() && simSet.isProducerThread()){
     			c.start();
     			p.start();
-    		} else if (settings.isProducerThread() && !settings.isConsumerThread()){
+    		} else if (simSet.isProducerThread() && !simSet.isConsumerThread()){
     			p.start();
-    			if(settings.isMasterProducer()){
+    			if(simSet.isMasterProducer()){
     				c.runMasterProducer();
     			} else {
     				c.runMasterConsumer();
     			}
-    		} else if(!settings.isProducerThread() && settings.isConsumerThread()) {
+    		} else if(!simSet.isProducerThread() && simSet.isConsumerThread()) {
     			c.start();
-    			if(settings.isMasterProducer()){
+    			if(simSet.isMasterProducer()){
     				p.runMasterProducer();
     			} else {
     				p.runMasterConsumer();

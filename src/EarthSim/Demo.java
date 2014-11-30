@@ -31,6 +31,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -373,6 +374,8 @@ public class Demo extends JFrame {
         	public void actionPerformed(ActionEvent ae)
         	{
         	simSet.setEccentricity(Double.valueOf(jEccentText.getText()));
+        	System.out.println("text field =  " +jEccentText.getText());
+        	System.out.println("simSet     =  " +simSet.getEccentricity());
         	}
         	
          });
@@ -381,6 +384,8 @@ public class Demo extends JFrame {
         	public void actionPerformed(ActionEvent ae)
         	{
         	simSet.setObliquity(Double.valueOf(jTiltText.getText()));
+        	System.out.println("text field =  " +jTiltText.getText());
+        	System.out.println("simSet     =  " +simSet.getObliquity());
         	}
         	
          });

@@ -590,7 +590,7 @@ public class Demo extends JFrame {
         panel.add(jTiltText);
         jOrbitalPosText.setBounds(240, 33, 99, 20);
         panel.add(jOrbitalPosText);
-               jOrbitalPosLabel.setBounds(240, 15, 99, 14);
+               jOrbitalPosLabel.setBounds(240, 15, 119, 14);
                panel.add(jOrbitalPosLabel);
         
                jOrbitalPosLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -635,11 +635,10 @@ public class Demo extends JFrame {
                                 javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
                                 jPanel2Layout.setHorizontalGroup(
                                 	jPanel2Layout.createParallelGroup(Alignment.LEADING)
-                                		.addGroup(jPanel2Layout.createSequentialGroup()
-                                			.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-                                			.addPreferredGap(ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
-                                			.addComponent(jElapSimTmLabel4, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-                                			.addGap(52))
+                                		.addGroup(Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                			.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+                                			.addPreferredGap(ComponentPlacement.RELATED, 350, Short.MAX_VALUE)
+                                			.addComponent(jElapSimTmLabel4, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
                                 );
                                 jPanel2Layout.setVerticalGroup(
                                 	jPanel2Layout.createParallelGroup(Alignment.LEADING)

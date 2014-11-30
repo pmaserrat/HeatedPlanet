@@ -134,7 +134,7 @@ public class Demo extends JFrame {
     //private TempEarthGrid tempgrid;
     
    //private EarthSurface       es;
-    private SimulationSettings simSet     = new SimulationSettings();
+    private static SimulationSettings simSet     = new SimulationSettings();
     private Proxy proxy = null;
     private SimulationBuffer buffer = null;
     //private SimulationSettings settings = null;
@@ -173,18 +173,18 @@ public class Demo extends JFrame {
 		}
 		else
 		{
-			final SimulationSettings settings = new SimulationSettings();
-			settings.setBufferSize(bufferSize);
+			//final SimulationSettings settings = new SimulationSettings();
+			simSet.setBufferSize(bufferSize);
 			//both -s and -p are not supplied
-			settings.setMasterController(!simulationThread || !presentationThread);
-			settings.setMasterConsumer(presentationInitiative);
-			settings.setMasterProducer(simulationInitiative);
-			settings.setConsumerThread(presentationThread);
-			settings.setProducerThread(simulationThread);
+			simSet.setMasterController(!simulationThread || !presentationThread);
+			simSet.setMasterConsumer(presentationInitiative);
+			simSet.setMasterProducer(simulationInitiative);
+			simSet.setConsumerThread(presentationThread);
+			simSet.setProducerThread(simulationThread);
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						 Demo frame = new Demo(settings);
+						 Demo frame = new Demo(simSet);
 						 frame.setVisible(true);	
 					    }
 					catch (Exception e)

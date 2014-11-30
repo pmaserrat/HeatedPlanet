@@ -168,7 +168,6 @@ public class MainDB {
 					
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -184,7 +183,6 @@ public class MainDB {
 					+ "," + tilt + "," + eccentricity + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -203,7 +201,7 @@ public class MainDB {
 					+ "," + length + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -220,7 +218,7 @@ public class MainDB {
 					+ temporal + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -234,12 +232,12 @@ public class MainDB {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql = "INSERT into GRID ("
-					+ name + "," + date + "," + time + "," + lat + ","
+					+ gridname + "," + date + "," + time + "," + lat + ","
 					+ lon + "," + temp + ")";
 					
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -266,7 +264,7 @@ public class MainDB {
 				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return result;
@@ -294,7 +292,7 @@ public class MainDB {
 				
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return result;

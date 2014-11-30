@@ -1,5 +1,9 @@
 package ActiveObject;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import persistence.MainDB;
 import EarthSim.EarthGrid;
 import EarthSim.EarthSurface;
 import EarthSim.SimulationBuffer;
@@ -16,6 +20,7 @@ public class SimulationEngineServant implements Runnable {
 	private Thread t = null;
 	private String threadName = "SimulationEngineServant Thread";
 	private long lastProduced = System.currentTimeMillis();
+	private MainDB db;
 	
 	protected SimulationEngineServant(SimulationSettings settings, SimulationBuffer buffer){
 		this.buffer = buffer;
@@ -37,7 +42,7 @@ public class SimulationEngineServant implements Runnable {
 	}
 	
 	public synchronized void executeProduceEarthGrid(){
-		
+		db = new MainDB();
 		while(this.buffer.remainingGridCapacity()==0){
 			try {
 				wait();
@@ -45,6 +50,8 @@ public class SimulationEngineServant implements Runnable {
 		}
 		try{
 			EarthGrid grid = earth.getEarthGridAfterNTimeSteps(1);
+			String name = settings.getSimulationName();
+			db.addGrid(name, grid);
 			buffer.putGrid(grid);
 			lastProduced = System.currentTimeMillis();
 			//System.out.println("Put Grid For Timestep " + grid.getTimestep());

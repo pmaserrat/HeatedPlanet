@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
+import EarthSim.EarthGrid;
+
 
 public class MainDB {
 	 
@@ -304,7 +306,7 @@ public class MainDB {
 		
 	}
 	
-	public void addGrid(String name, Calendar date, Calendar time, int lat, int lon, double temp){
+	public void addGrid(String name, Calendar date, Calendar time, int x, int y, double temp){
 		String gridname = name + "G";
 		Statement stmt = null;
 		
@@ -312,8 +314,8 @@ public class MainDB {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql = "INSERT into GRID ("
-					+ gridname + "," + date + "," + time + "," + lat + ","
-					+ lon + "," + temp + ")";
+					+ gridname + "," + date + "," + time + "," + x + ","
+					+ y + "," + temp + ")";
 					
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -353,6 +355,8 @@ public class MainDB {
 				while(rs1.next()){
 					result += rs.getString("name") + " " + rs.getString("axialtilt") 
 							+ " " + rs.getString("eccentricity");
+					
+					
 				}
 				
 			}
@@ -415,5 +419,42 @@ public class MainDB {
 		      }//end finally try
 		}
 		return result;
+	}
+
+	public void addGrid(String name, EarthGrid grid) {
+		// TODO Auto-generated method stub
+		String gridname = name + "G";
+		PreparedStatement stmt = null;
+		for (int i = 0; i < grid.getTempGridHeight();i++){
+			for(int j = 0; j < grid.getTempGridWidth(); i++){
+		
+				try {
+					conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+		//			stmt = conn.createStatement();
+		//			String sql = "INSERT into GRID ("
+		//					+ gridname + "," + date + "," + time + "," + x + ","
+		//					+ y + "," + temp + ")";
+					
+							
+					stmt.executeUpdate();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}finally{
+				      //finally block used to close resources
+				      try{
+				         if(stmt!=null)
+				            conn.close();
+				      }catch(SQLException se){
+				      }// do nothing
+				      try{
+				         if(conn!=null)
+				            conn.close();
+				      }catch(SQLException se){
+				         se.printStackTrace();
+				      }//end finally try
+				}
+			}
+		}
 	}
 }

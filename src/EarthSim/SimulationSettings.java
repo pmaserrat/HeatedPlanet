@@ -18,10 +18,18 @@ public class SimulationSettings {
 	//private double obliquity = 23.44; //default value
 	private double eccentricity;// = 0.0; //default value
 	private double obliquity;// = 0.0; //default value
+	private String name;
     public SimulationSettings(){
 
     }
     
+    public void setSimulationName(String name){
+    	this.name = name;
+    }
+    
+    public String getSimulationName(){
+    	return this.name;
+    }
     public int getSimulationIterations(){
     	return this.simulationIterations;
     }

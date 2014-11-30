@@ -121,9 +121,9 @@ public class AffectofGridSize15Test {
 		UITestBot.clickComponement(EarthSim.Demo.jSimTmStpSlider2, 50, .50);
 		EarthSim.Demo.jSimTmStpSlider2.setValue(TIMESTEP);
 		
-		UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
-        EarthSim.Demo.jSlider3.setValue(PRESENTATION_RATE );
+	//	UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
+	//	UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
+    //    EarthSim.Demo.jSlider3.setValue(PRESENTATION_RATE );
         
         UITestBot.clickComponement(EarthSim.Demo.jSlider4, 50, .50);
 		UITestBot.clickComponement(EarthSim.Demo.jSlider4, 50, .50);

@@ -208,8 +208,8 @@ public class Demo extends JFrame {
 	}
 	public Demo(SimulationSettings settings)
 	{
-		super();     //toggle for builder
-		//this();    //  "     "  runtime
+		// super();     //toggle for builder
+		this();    //  "     "  runtime
 		simSet = settings;
 		//jSlider4.setValue(simSet.getBufferSize());
 	}

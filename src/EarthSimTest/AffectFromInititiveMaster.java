@@ -111,7 +111,7 @@ public class AffectFromInititiveMaster {
 		
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider3, 50, .50);
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider3, 50, .50);
-     EarthSim.Demo.jSlider3.setValue(PRESENTATION_RATE );
+    // EarthSim.Demo.jSlider3.setValue(PRESENTATION_RATE );
    
     // UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider4, 50, .50);
 	//	UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider4, 50, .50);

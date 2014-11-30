@@ -537,8 +537,8 @@ public class Demo extends JFrame {
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
-        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
         			.addContainerGap()
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
         				.addComponent(jPanel5, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
@@ -548,11 +548,11 @@ public class Demo extends JFrame {
         jPanel1Layout.setVerticalGroup(
         	jPanel1Layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jPanel1Layout.createSequentialGroup()
-        			.addGap(52)
-        			.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18)
+        			.addContainerGap()
+        			.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE)
+        			.addGap(29)
         			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(219, Short.MAX_VALUE))
+        			.addContainerGap(236, Short.MAX_VALUE))
         );
         panel.setLayout(null);
         jEccentLabel.setBounds(10, 11, 66, 14);
@@ -605,44 +605,59 @@ public class Demo extends JFrame {
                        panel.add(jDurationText);
         jPanel1.setLayout(jPanel1Layout);
 
-        jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jRotPosLabel3.setText("Rotational Position: ###");
-
-        jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jElapSimTmLabel4.setText("Elapsed Simulation Time  ##:##:##");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jRotPosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 577, Short.MAX_VALUE)
-                .addComponent(jElapSimTmLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRotPosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jElapSimTmLabel4))
-                .addGap(0, 20, Short.MAX_VALUE))
-        );
-
         jScrollPane1.setViewportView(visualPlate);
+        
+        jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jElapSimTmLabel4.setText("Elapsed Simulation Time (days, hours, minutes) 00:00:00");
+        
+        jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRotPosLabel3.setText("Rotational Position: 00.0");
+        
+                jRotPosLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+                jRotPosLabel3.setText("Rotational Position: ###");
+                
+                        jElapSimTmLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+                        jElapSimTmLabel4.setText("Elapsed Simulation Time  ##:##:##");
+                        
+                                javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+                                jPanel2Layout.setHorizontalGroup(
+                                	jPanel2Layout.createParallelGroup(Alignment.LEADING)
+                                		.addGroup(jPanel2Layout.createSequentialGroup()
+                                			.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
+                                			.addPreferredGap(ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+                                			.addComponent(jElapSimTmLabel4, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+                                			.addContainerGap())
+                                );
+                                jPanel2Layout.setVerticalGroup(
+                                	jPanel2Layout.createParallelGroup(Alignment.LEADING)
+                                		.addGroup(jPanel2Layout.createSequentialGroup()
+                                			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+                                				.addComponent(jRotPosLabel3, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                				.addComponent(jElapSimTmLabel4))
+                                			.addGap(0, 20, Short.MAX_VALUE))
+                                );
+                                jPanel2.setLayout(jPanel2Layout);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+        	jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel3Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
+        				.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, 796, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+        	jPanel3Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        jPanel3.setLayout(jPanel3Layout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -650,9 +665,7 @@ public class Demo extends JFrame {
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 387, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGap(12)
         			.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
         			.addGap(84))
         );
@@ -660,13 +673,10 @@ public class Demo extends JFrame {
         	layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap(18, Short.MAX_VALUE)
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-        					.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        					.addGap(21))
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(layout.createSequentialGroup()
         					.addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, 506, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap())
+        					.addGap(184))
         				.addGroup(layout.createSequentialGroup()
         					.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 679, GroupLayout.PREFERRED_SIZE)
         					.addContainerGap())))
@@ -731,7 +741,7 @@ public class Demo extends JFrame {
     	  visualPlate.updateGrid(new TempEarthGrid(grid.getTempGrid()));
     	  visualPlate.moveSunPosition((float) grid.getSunLongitude());
     	  jRotPosLabel3.setText("Rotational Position: " + grid.getSunLongitude());
-    	  jOrbitalPosText.setText( "(" + Double.toString(Math.round(grid.getPosX()*100)/100 ) + " , " + Double.toString(Math.round(grid.getPosY()* 100)/100) + ")" ) ;
+    	  jOrbitalPosText.setText( "(" + Double.toString(Math.round(grid.getPosX()*100.00)/100.00 ) + " , " + Double.toString(Math.round(grid.getPosY()* 100.00)/100.00) + ")" ) ;
     	  //create hours and minutes from longitude
     	  //the 15 is the fact that every 15 degrees of longitude then 1 hour has elapsed.  so integer divide the longitude by 
     	  //15 and you have the elapsed hour.  The minutes though are the fraction of that degrees.  That is proportional to the 

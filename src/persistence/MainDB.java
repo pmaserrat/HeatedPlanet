@@ -427,8 +427,11 @@ public class MainDB {
 		String gridname = name + "G";
 		PreparedStatement stmt = null;
 		double gridtemp[][] = grid.getTempGrid();
-		for (int i = 0; i < grid.getTempGridHeight();i++){
-			for(int j = 0; j < grid.getTempGridWidth(); i++){
+		int gridlength = gridtemp.length;
+		for (int i = 0; i < gridlength;i++){
+			System.out.println("");
+			for(int j = 0; j < gridlength; j++){
+				
 		
 				try {
 					conn = DriverManager.getConnection(DBS_URL, USER, PASS);
@@ -445,6 +448,7 @@ public class MainDB {
 					int x = (int)grid.getPosX();
 					int y = (int)grid.getPosY();
 					double temp = gridtemp[i][j];
+					System.out.print(temp);
 					StringBuffer sql = new StringBuffer("insert into GRID values(?,?,?,?,?,?)");
 					stmt = conn.prepareStatement(sql.toString());
 					stmt.setString(1, gridname);

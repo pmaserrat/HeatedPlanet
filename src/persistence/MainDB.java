@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import EarthSim.EarthGrid;
+import EarthSim.SimulationSettings;
 
 
 public class MainDB {
@@ -67,7 +68,7 @@ public class MainDB {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt1 = conn.createStatement();
 		      
-		      String sql1 = "DROP TABLE GRID"; 
+		      String sql1 = "DROP DATABASE SIMULATIONS"; 
 
 		      stmt1.executeUpdate(sql1);
 		} catch (SQLException e) {
@@ -113,7 +114,7 @@ public class MainDB {
 		      
 		      String sql = "CREATE TABLE IF NOT EXISTS PHYSICALFACTORS " +
 		                   "(name VARCHAR(255) not NULL, " +
-		                   " axialtilt INTEGER, " + 
+		                   " axialtilt DOUBLE, " + 
 		                   " eccentricity DOUBLE) "; 
 
 		      stmt.executeUpdate(sql);
@@ -183,6 +184,17 @@ stmt = conn.createStatement();
 		   }//end try
 	}
 	
+	public void addSettings(SimulationSettings settings){
+		settings.setSimulationName();
+		String name = settings.getSimulationName();
+		addSimulation(name);
+		addPhysical(name,settings.getObliquity(),settings.getEccentricity());
+		addSimSettings(name, settings.getGridSpacing(), settings.getTimeStep(), 
+				settings.getDuration());
+		addInvSettings(name, settings.getPercision(), settings.getGeoPercision(), 
+				settings.getTemporalPercision());
+	}
+	
 	// add the name to Simulation table and keys to other tables
 	public void addSimulation(String name){
 		
@@ -225,7 +237,7 @@ stmt = conn.createStatement();
 		}
 	}
 	
-	public void addPhysical(String name, int tilt, double eccentricity){
+	public void addPhysical(String name, double tilt, double eccentricity){
 		String physname = name;
 		PreparedStatement stmt = null;
 		
@@ -237,7 +249,7 @@ stmt = conn.createStatement();
 			StringBuffer sql = new StringBuffer("insert into PHYSICALFACTORS values(?,?,?)");
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.setString(1, physname);
-			stmt.setInt(2, tilt);
+			stmt.setDouble(2, tilt);
 			stmt.setDouble(3, eccentricity);
 			
 			stmt.executeUpdate();
@@ -367,10 +379,10 @@ stmt = conn.createStatement();
 		}
 	}
 	
-	public String readSimulations(double tilt, double eccentricity){
+	public String readSimulations(double tilts, double eccentricity){
 		Statement stmt = null;
 		String result = "";
-		int tilts = (int)tilt;
+		//int tilts = (int)tilt;
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
@@ -419,8 +431,8 @@ stmt = conn.createStatement();
 //			ResultSet rs = stmt.executeQuery(sql);
 			
 			
-				
-				String sql = "SELECT * from SIMULATIONSETTINGS where name=" + name;
+				//name = "1417392502003SS";
+				String sql = "SELECT * from SIMULATIONSETTINGS where name='" + name + "'";
 				ResultSet rs3 = stmt.executeQuery(sql);
 				if(rs3.next()){
 					spacing = rs3.getInt("gridspacing");
@@ -432,8 +444,8 @@ stmt = conn.createStatement();
 				int numcells = 360/spacing;
 				int numrows = 180/spacing;
 				double tempgrid[][] = new double[numcells][numrows];
-				
-				sql = "SELECT * from GRID where name=" + name;
+				//name = "1417392502003";
+				sql = "SELECT * from GRID where name='" + name + "'";
 				ResultSet rs2 = stmt.executeQuery(sql);
 					
 				int i = 0;

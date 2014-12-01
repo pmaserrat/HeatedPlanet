@@ -821,7 +821,7 @@ public class Demo extends JFrame {
 	  	  Long date1 = date.getTimeInMillis();
 	  	  String dateString = date1.toString();
 	  		
-	  	  db = new MainDB();
+	  	 /* db = new MainDB();
 	  	  simSet.setSimulationName(dateString);	
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
@@ -832,7 +832,7 @@ public class Demo extends JFrame {
 	  	  int geographic = 100;
 	  	  int temporal = 100;
 	  	  db.addInvSettings(dateString, precision, geographic, temporal);
-	  	 
+	  	 */
 
 		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();

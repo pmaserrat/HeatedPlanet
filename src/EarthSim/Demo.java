@@ -814,15 +814,11 @@ public class Demo extends JFrame {
 		  //settings.setMasterProducer(true);
 		  //settings.setMasterConsumer(false);
 		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
-		  
-    	  
-    	  Calendar date = Calendar.getInstance();
-  		
-	  	  Long date1 = date.getTimeInMillis();
-	  	  String dateString = date1.toString();
+		 
 	  		
-	  	 /* db = new MainDB();
-	  	  simSet.setSimulationName(dateString);	
+	  	  db = new MainDB();
+	  	  simSet.setSimulationName();	
+	  	  String dateString = simSet.getSimulationName();
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
 	  				simSet.getSimulationIterations());
@@ -832,7 +828,7 @@ public class Demo extends JFrame {
 	  	  int geographic = 100;
 	  	  int temporal = 100;
 	  	  db.addInvSettings(dateString, precision, geographic, temporal);
-	  	 */
+	  	 
 
 		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();

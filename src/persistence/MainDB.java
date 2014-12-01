@@ -25,7 +25,7 @@ public class MainDB {
     private Statement stmt;
     private Statement stmt1;
 	
-	public void dbConnection(){
+	public void createDB(){
 		try{
 		     
 		      Class.forName("com.mysql.jdbc.Driver");
@@ -38,7 +38,6 @@ public class MainDB {
 		      String sql = "CREATE DATABASE IF NOT EXISTS SIMULATIONS";
 		      stmt.executeUpdate(sql);
 		      
-		      conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		      
 		   }catch(SQLException se){
 		      //Handle errors for JDBC

@@ -1,5 +1,6 @@
 package ActiveObject;
 
+import persistence.MainDB;
 import EarthSim.SimulationBuffer;
 import EarthSim.SimulationSettings;
 
@@ -10,10 +11,16 @@ public class Proxy {
 	private Thread sThread = null;
 	private Thread pThread = null;
 	
+	private MainDB db = null;
+	
 	public Proxy(SimulationSettings settings, SimulationBuffer buffer){
 		this.dataBuffer = buffer;
 		this.settings = settings;
 		this.scheduler = new Scheduler(settings,buffer);
+		this.db = new MainDB();
+		db.createDB();
+		db.createTables();
+		
 		SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, dataBuffer);
 		p = p.reset(settings, buffer);
 		SimulationEngineServant s = SimulationEngineServant.getInstance(settings, dataBuffer);

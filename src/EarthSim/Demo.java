@@ -125,10 +125,10 @@ public class Demo extends JFrame {
     private JToggleButton jToggleButton1   = new javax.swing.JToggleButton(); // pause/restart button  (not sure if really necessary)
     
     private JSlider   jSlider6             = new javax.swing.JSlider();       // iteration count
-    private JSlider   jSlider5             = new javax.swing.JSlider();       // simulation rate
+    private JSlider   jSlider5             = new javax.swing.JSlider();       // simulation Length
     private JLabel    jPresDisRateLabel    = new javax.swing.JLabel();        // Presentation Display rate Label
     private JLabel    jEndLocLabel         = new javax.swing.JLabel();        // End latitude/longitude Label
-    private JLabel    jSimRateLabel        = new javax.swing.JLabel();        // Simulation Rate Label
+    private JLabel    jSimLenLabel        = new javax.swing.JLabel();        // Simulation Rate Label
     private JLabel    jStartLocLabel       = new javax.swing.JLabel();        // Start latitude/longitude Label
     private JLabel    jEccentLabel         = new javax.swing.JLabel();        // Eccentricity Label
     private JLabel    jTiltLabel           = new javax.swing.JLabel();        // Obliguity Label   
@@ -287,9 +287,9 @@ public class Demo extends JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         simulationButton = new javax.swing.JButton();
-        jSlider5.setValue(60);
+        jSlider5.setValue(12);
         
-        jSlider5.setMaximum(60);
+        jSlider5.setMaximum(1200);
         jSlider5.setMinimum(1);
         jSlider5.setPaintLabels(true);
         jSlider5.setPaintTicks(true);
@@ -311,8 +311,8 @@ public class Demo extends JFrame {
         jPresDisRateLabel.setText("Presentation Display Rate");
 
 
-        jSimRateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jSimRateLabel.setText("Simulation Rate(60)");
+        jSimLenLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jSimLenLabel.setText("Simulation Rate(12)");
         
         jEccentText.setText(Double.toString(simSet.getEccentricity()));
         jTiltText.setText(Double.toString(simSet.getObliquity()));
@@ -348,7 +348,7 @@ public class Demo extends JFrame {
         jSlider5.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event){
 
-        		jSimRateLabel.setText("Simulation Rate(" + jSlider5.getValue() + ")" );	//TODO: should probably rename this slider and label
+        		jSimLenLabel.setText("Simulation Length(" + jSlider5.getValue() + ")" );	//TODO: should probably rename this slider and label
 
         	}
 
@@ -595,7 +595,7 @@ public class Demo extends JFrame {
         					.addComponent(jSimTmStpLabel, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
         					.addGap(85))
         				.addGroup(jPanel5Layout.createSequentialGroup()
-        					.addComponent(jSimRateLabel)
+        					.addComponent(jSimLenLabel)
         					.addGap(212))
         				.addGroup(jPanel5Layout.createSequentialGroup()
         					.addComponent(jPresDisRateLabel)
@@ -624,7 +624,7 @@ public class Demo extends JFrame {
         			.addGap(4)
         			.addComponent(jSimTmStpSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(jSimRateLabel)
+        			.addComponent(jSimLenLabel)
         			.addGap(1)
         			.addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -808,7 +808,8 @@ public class Demo extends JFrame {
     	  simSet.setProducerThread(simSet.isProducerThread()); //not available in the UI, pull from the settings object created from the cmd line
     	  simSet.setTimeStep(jSimTmStpSlider2.getValue()); // was 1440/100
     	  simSet.setPresentationRate(jPresDisRateSlider.getValue());  //was 2
-    	  simSet.setSimulationRate(jSlider5.getValue());
+    	  simSet.setSimulationRate(60);
+    	  simSet.setDuration(jSlider5.getValue());
     	  simSet.setSimulationIterations(jSlider6.getValue());
 		  //settings.setMasterProducer(true);
 		  //settings.setMasterConsumer(false);
@@ -820,7 +821,7 @@ public class Demo extends JFrame {
 	  	  Long date1 = date.getTimeInMillis();
 	  	  String dateString = date1.toString();
 	  		
-	  	  db = new MainDB();
+	  	/*  db = new MainDB();
 	  	  simSet.setSimulationName(dateString);	
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
@@ -832,7 +833,7 @@ public class Demo extends JFrame {
 	  	  int temporal = 100;
 	  	  db.addInvSettings(dateString, precision, geographic, temporal);
 	  	 
-
+          */   
 		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();
 		  pc = new MasterProducer();

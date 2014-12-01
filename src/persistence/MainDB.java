@@ -99,7 +99,6 @@ public class MainDB {
 		                   " gridspacing INTEGER, " + 
 		                   " timestep INTEGER, " + 
 		                   " SimulationLength INTEGER) "; 
-		      System.out.println(sql2);
 
 		      stmt2.executeUpdate(sql2);
 		      System.out.println("Created sim settings table");
@@ -112,7 +111,6 @@ public class MainDB {
 		                   " precisions INTEGER, " + 
 		                   " geographic INTEGER, " + 
 		                   " temporal INTEGER) "; 
-		      System.out.println(sql3);
 
 		      stmt3.executeUpdate(sql3);
 		      System.out.println("Created invocation table");
@@ -128,7 +126,6 @@ public class MainDB {
 		                   " longitude INTEGER, " +
 		                   " temperature DOUBLE) ";
 
-		      stmt.executeUpdate(sql);
 		      System.out.println("Created grid table");
 		      
 		   }catch(SQLException se){

@@ -21,21 +21,18 @@ public class Proxy {
 		db.createDB();
 		db.createTables();
 		
-		db = new MainDB();	
-	  	String dateString = settings.getSimulationName();
-	  	db.addSimulation(dateString);
-	  	db.addSimSettings(dateString, settings.getGridSpacing(), settings.getTimeStep(), 
-	  				settings.getSimulationIterations());
-	
-	  	db.addPhysical(dateString, (int)settings.getObliquity(), settings.getEccentricity());
-	  	db.addInvSettings(dateString, settings.getPercision(), settings.getGeoPercision(), 
-	  			settings.getTemporalPercision());
-		
 		SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, dataBuffer);
 		p = p.reset(settings, buffer);
+		
+	 if(!simSet.QueryResultsFound)
+	  {	 
 		SimulationEngineServant s = SimulationEngineServant.getInstance(settings, dataBuffer);
 		s = s.reset(settings, buffer);
-		
+	  }
+	 else
+	 {	 
+		SimulationQueryServant q = SimulationQueryServant.getInstance(settings, dataBuffer);
+	 }	
 	}
 	
 	public void consumeEarthGrid(){

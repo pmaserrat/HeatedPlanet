@@ -17,6 +17,7 @@ public class SimulationSettings {
 	private boolean masterController = false;
 	private boolean consumerThread = true;
 	private boolean producerThread = true;
+	private boolean mQueryResultsFound = false;
 	private int presentationRate = 60;
 	private int simulationRate = 60;
 	private int simulationIterations = 1000000;
@@ -240,6 +241,14 @@ public class SimulationSettings {
 		public void setDuration(int solarMonths) {
 			if (solarMonths >=1 && solarMonths <=1200){
 				this.mDuration = solarMonths;}
+		}
+		
+		public boolean isQueryFound() {
+			return mQueryResultsFound;
+		}
+
+		public void setisQueryFound(boolean qryFnd) {
+			this.mQueryResultsFound = qryFnd;
 		}
 
 	

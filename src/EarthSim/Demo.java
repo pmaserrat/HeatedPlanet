@@ -296,7 +296,7 @@ public class Demo extends JFrame {
         
         jSlider6.setValue(100);
         
-        jSlider6.setMaximum(10000);
+        jSlider6.setMaximum(1000);
         jSlider6.setMinimum(1);
         jSlider6.setPaintLabels(false);
         jSlider6.setPaintTicks(false);
@@ -312,7 +312,7 @@ public class Demo extends JFrame {
 
 
         jSimLenLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jSimLenLabel.setText("Simulation Rate(12)");
+        jSimLenLabel.setText("Simulation Length(12)");
         
         jEccentText.setText(Double.toString(simSet.getEccentricity()));
         jTiltText.setText(Double.toString(simSet.getObliquity()));
@@ -821,7 +821,7 @@ public class Demo extends JFrame {
 	  	  Long date1 = date.getTimeInMillis();
 	  	  String dateString = date1.toString();
 	  		
-	  	/*  db = new MainDB();
+	  	  db = new MainDB();
 	  	  simSet.setSimulationName(dateString);	
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
@@ -833,7 +833,7 @@ public class Demo extends JFrame {
 	  	  int temporal = 100;
 	  	  db.addInvSettings(dateString, precision, geographic, temporal);
 	  	 
-          */   
+
 		  proxy = new Proxy(simSet,buffer);
 		  mc = new MasterControl();
 		  pc = new MasterProducer();

@@ -813,21 +813,10 @@ public class Demo extends JFrame {
     	  simSet.setSimulationIterations(jSlider6.getValue());
 		  //settings.setMasterProducer(true);
 		  //settings.setMasterConsumer(false);
-		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
-		 
-	  		
-	  	  db = new MainDB();
+		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 
+		  
 	  	  simSet.setSimulationName();	
-	  	  String dateString = simSet.getSimulationName();
-	  	  db.addSimulation(dateString);
-	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
-	  				simSet.getSimulationIterations());
-	
-	  	  db.addPhysical(dateString, (int)simSet.getObliquity(), simSet.getEccentricity());
-	  	  int precision = 4;
-	  	  int geographic = 100;
-	  	  int temporal = 100;
-	  	  db.addInvSettings(dateString, precision, geographic, temporal);
+	  	  
 	  	 
 
 		  proxy = new Proxy(simSet,buffer);

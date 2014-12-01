@@ -439,7 +439,6 @@ public class MainDB {
 		double gridtemp[][] = grid.getTempGrid();
 		int gridlength = gridtemp.length;
 		for (int i = 0; i < gridlength;i++){
-			System.out.println("");
 			for(int j = 0; j < gridlength; j++){
 				
 		
@@ -458,7 +457,6 @@ public class MainDB {
 					int x = (int)grid.getPosX();
 					int y = (int)grid.getPosY();
 					double temp = gridtemp[i][j];
-					System.out.print(temp);
 					StringBuffer sql = new StringBuffer("insert into GRID values(?,?,?,?,?,?)");
 					stmt = conn.prepareStatement(sql.toString());
 					stmt.setString(1, gridname);

@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 
-import EarthSim.EarthGrid;
+import PlanetSim.EarthGrid;
 
 
 public class MainDB {

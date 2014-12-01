@@ -1,4 +1,4 @@
-package EarthSim;
+package PlanetSim;
 
 
 import java.awt.EventQueue;
@@ -168,23 +168,26 @@ public class Demo extends JFrame {
 		{
 			//these should all test to see if i+1 goes off the end of the array
 			//bigger fish to fry at this moment
-			if (args[i].equals("-b"))
-				bufferSize = Integer.parseInt(args[i+1]);
-			else if (args[i].equals("-s"))
-				simulationThread = true;
+			if (args[i].equals("-g"))
+				simSet.setGeoPercision( Integer.parseInt(args[i+1]));
 			else if (args[i].equals("-p"))
-				presentationThread = true;						
-			else if (args[i].equals("-r"))
-				presentationInitiative = true;						
+				simSet.setPercision( Integer.parseInt(args[i+1]));					
+
 			else if (args[i].equals("-t"))
-				simulationInitiative = true;
+				simSet.setTemporalPercision( Integer.parseInt(args[i+1]));
+
 		}
-		if (bufferSize <= 0)
+		if ((simSet.getGeoPercision()  <= 0) || (simSet.getGeoPercision() > 100))
 			printUsage();
-		else if (presentationInitiative && simulationInitiative) //these options are mutually exclusive
+		else if ((simSet.getPercision()  <= 0) || (simSet.getPercision() > 100)) 
 		{
 			printUsage();
 		}
+		else if ((simSet.getTemporalPercision()  <= 0) || (simSet.getTemporalPercision() > 100))
+		{
+			printUsage();
+		}
+		
 		else
 		{
 			//final SimulationSettings settings = new SimulationSettings();
@@ -265,7 +268,7 @@ public class Demo extends JFrame {
         //grid spacing slider
         jGridSpcSlider1.setMaximum(180);                // max grid spacing
         jGridSpcSlider1.setMinimum(1);                  // min grid spacing  
-        jGridSpcSlider1.setValue(15);                   // default grid spacing set to 14
+        jGridSpcSlider1.setValue(15);                   // default grid spacing set to 15
         jGridSpcSlider1.setMajorTickSpacing(30);
         
         jSimTmStpLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -289,7 +292,7 @@ public class Demo extends JFrame {
         simulationButton = new javax.swing.JButton();
         jSlider5.setValue(12);
         
-        jSlider5.setMaximum(1200);
+        jSlider5.setMaximum(1200);                           //Simulation Length
         jSlider5.setMinimum(1);
         jSlider5.setPaintLabels(true);
         jSlider5.setPaintTicks(true);
@@ -387,8 +390,8 @@ public class Demo extends JFrame {
         	public void actionPerformed(ActionEvent ae)
         	{
         	simSet.setEccentricity(Double.valueOf(jEccentText.getText()));
-        	System.out.println("text field =  " +jEccentText.getText());
-        	System.out.println("simSet     =  " +simSet.getEccentricity());
+        	//System.out.println("text field =  " +jEccentText.getText());
+        	//System.out.println("simSet     =  " +simSet.getEccentricity());
         	}
         	
          });
@@ -434,8 +437,8 @@ public class Demo extends JFrame {
         	public void actionPerformed(ActionEvent ae)
         	{
         	simSet.setObliquity(Double.valueOf(jTiltText.getText()));
-        	System.out.println("text field =  " +jTiltText.getText());
-        	System.out.println("simSet     =  " +simSet.getObliquity());
+        	//System.out.println("text field =  " +jTiltText.getText());
+        	//System.out.println("simSet     =  " +simSet.getObliquity());
         	}
         	
          });
@@ -518,7 +521,13 @@ public class Demo extends JFrame {
 				jSlider6.setEnabled(b);
 				jEccentText.setEnabled(b);
 			    jTiltText.setEnabled(b);
+			    jStartLocText.setEnabled(b);
+			    jEndLocText.setEnabled(b);
+			    jDurationText.setEnabled(b);
+			    jOrbitalPosText.setEnabled(b);
 			}
+			
+			 
 
         });
         
@@ -851,7 +860,7 @@ public class Demo extends JFrame {
     	  visualPlate.updateGrid(new TempEarthGrid(grid.getTempGrid()));
     	  visualPlate.moveSunPosition((float) grid.getSunLongitude());
     	  jRotPosLabel3.setText("Rotational Position: " + grid.getSunLongitude());
-    	  jOrbitalPosText.setText( "(" + Double.toString(Math.round(grid.getPosX()*100.00)/100.00 ) + " , " + Double.toString(Math.round(grid.getPosY()* 100.00)/100.00) + ")" ) ;
+    	  jOrbitalPosText.setText( "(" + Double.toString(Math.round(grid.getPosX())/100000.00 ) + " , " + Double.toString(Math.round(grid.getPosY())/100000.00) + ")" ) ;
     	  //create hours and minutes from longitude
     	  //the 15 is the fact that every 15 degrees of longitude then 1 hour has elapsed.  so integer divide the longitude by 
     	  //15 and you have the elapsed hour.  The minutes though are the fraction of that degrees.  That is proportional to the 
@@ -1012,36 +1021,13 @@ public class Demo extends JFrame {
     
 	private final static String usageMg = "Invocation:" +
 
-"The Heated Earth simulation program should be invoked as follows:"
-+ "\njava EarthSim.Demo [-s] [-p] [-r|-t] [-b #]"
-+ "\nConcurrency: The Java Virtual Machine (JVM) starts each program in a "
-+ "\nmain thread. If, in addition, Swing is used, there is a second, event-dispatch "
-+ "\nthread that is responsible for handling user controls in the GUI. (Note that "
-+ "\nin this section, the term GUI explicitly excludes the animated Presentation.) "
-+ "\nThe following parameters control concurrency in terms of what additional threads"
-+ "\nyour program should use."
-+ "\n-s: Indicates that the Simulation should run in its own thread"
-+ "\n-p: Indicates that the Presentation should run in its own thread"
-+ "\nAll four subsets of {-s, -p} are allowed. For example, in the absence of both -s "
-+ "\nand -p, all three components (Simulation, Presentation and GUI) should run in the "
-+ "\nsame thread. Note that the threads used for the -s and -p options should be full "
-+ "\npartners. By this is meant that they are not subordinate to the GUI thread or to each"
-+ "\nother. In particular, you should not make use of the SwingWorker mechanism provided "
-+ "\nby the Java libraries."
-+ "\nInitiative: The following parameters control initiative."
-+ "\n-t: Indicates that the Simulation, after producing an updated grid, should instruct "
-+ "\nthe Presentation to consume it "
-+ "\n-r: Indicates that the Presentation, after completing the display of a grid, should "
-+ "\ninstruct the Simulation to produce another"
-+ "\nIf neither -t nor -r are present, then a third party (presumably in the GUI thread) "
-+ "\nshould be responsible for invoking both the Presentation and the Simulation and "
-+ "\ncoordinating their interaction in a correct and efficient fashion."
-+ "\nBuffering: The -b # parameter controls buffering, where # is a positive integer indicating "
-+ "\nthe length of the buffer. In all combinations of parameters, data should be passed between"
-+ "\nthe Simulation and the Presentation using a shared variable. If no explicit -b # parameter"
-+ "\nis present, the shared variable can be thought of as a buffer of length one. That is, the "
-+ "absense of the -b parameter is treated as if -b 1 appeared."; 
-    
+"The Heated Planet simulation program should be invoked as follows:"
++ "\njava PlanetSim.Demo [-p #] [-t #] [-g #]"
++ "\n"
++ "\n-p # The percision of the data to be stored, in decimal digits. Range (0 ~ 100) "
++ "\n-t # The temporal percision of the teperature data o fthe data to be stored. Range (0 ~ 100) "
++ "\n-g # The geographic percision (sampling rate) of the temperature data to be stored. Range (0 ~100) "
++ "\n";    
 	
 	
 	private static void printUsage()

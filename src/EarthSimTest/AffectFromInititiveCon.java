@@ -6,11 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import EarthSim.Demo;
+import PlanetSim.Demo;
 
 public class AffectFromInititiveCon {
 
-    EarthSim.Demo      UI          = new EarthSim.Demo();
+    PlanetSim.Demo      UI          = new PlanetSim.Demo();
 	DemoGUIRobot       UITestBot          = new DemoGUIRobot();
 	
 
@@ -61,13 +61,13 @@ public class AffectFromInititiveCon {
 	@After
      public void tearDown() throws Exception {
 		
-		while(EarthSim.Demo.curIteration <1000)
+		while(PlanetSim.Demo.curIteration <1000)
 		{
-			System.out.println(EarthSim.Demo.curIteration);
+			System.out.println(PlanetSim.Demo.curIteration);
 		}
 		
 		
-		EarthSim.Demo.curIteration =0;
+		PlanetSim.Demo.curIteration =0;
 	}
 	
 	
@@ -83,39 +83,39 @@ public class AffectFromInititiveCon {
 		   /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-              new  EarthSim.Demo().setVisible(true);
-              EarthSim.Demo.curIteration =0;
+              new  PlanetSim.Demo().setVisible(true);
+              PlanetSim.Demo.curIteration =0;
             }
         });
         
         UITestBot.Pause(10000);
         
-        EarthSim.Demo.jComboBox1.setSelectedIndex(INITITIVE +2);       
+        PlanetSim.Demo.jComboBox1.setSelectedIndex(INITITIVE +2);       
         
-		UITestBot.clickComponement(EarthSim.Demo.jComboBox1, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jComboBox1, 50, .50);
-		EarthSim.Demo.jComboBox1.setSelectedIndex(INITITIVE +1); 
+		UITestBot.clickComponement(PlanetSim.Demo.jComboBox1, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jComboBox1, 50, .50);
+		PlanetSim.Demo.jComboBox1.setSelectedIndex(INITITIVE +1); 
       
-		UITestBot.clickComponement(EarthSim.Demo.jGridSpcSlider1, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jGridSpcSlider1, 50, .50);
-		EarthSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
+		UITestBot.clickComponement(PlanetSim.Demo.jGridSpcSlider1, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jGridSpcSlider1, 50, .50);
+		PlanetSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
       
 		
-		UITestBot.clickComponement(EarthSim.Demo.jSimTmStpSlider2, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jSimTmStpSlider2, 50, .50);
-		EarthSim.Demo.jSimTmStpSlider2.setValue(TIMESTEP);
+		UITestBot.clickComponement(PlanetSim.Demo.jSimTmStpSlider2, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jSimTmStpSlider2, 50, .50);
+		PlanetSim.Demo.jSimTmStpSlider2.setValue(TIMESTEP);
 		
 		//UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
 		//UITestBot.clickComponement(EarthSim.Demo.jSlider3, 50, .50);
         //EarthSim.Demo.jSlider3.setValue(PRESENTATION_RATE );
       
-        UITestBot.clickComponement(EarthSim.Demo.jSlider4, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jSlider4, 50, .50);
-        EarthSim.Demo.jSlider4.setValue(BUFFER_SIZE);
+        UITestBot.clickComponement(PlanetSim.Demo.jSlider4, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jSlider4, 50, .50);
+        PlanetSim.Demo.jSlider4.setValue(BUFFER_SIZE);
         UITestBot.Pause(1000); 
       
       
-      UITestBot.clickComponement(EarthSim.Demo.simulationButton, 100, .50);
+      UITestBot.clickComponement(PlanetSim.Demo.simulationButton, 100, .50);
       assertTrue(true);
        
         

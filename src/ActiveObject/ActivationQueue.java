@@ -2,8 +2,8 @@ package ActiveObject;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import EarthSim.SimulationBuffer;
-import EarthSim.SimulationSettings;
+import PlanetSim.SimulationBuffer;
+import PlanetSim.SimulationSettings;
 
 public class ActivationQueue {
 

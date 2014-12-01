@@ -1,4 +1,4 @@
-package EarthSim;
+package PlanetSim;
 
 public abstract class MethodRequest implements Runnable {
 	SimulationBuffer buffer = null;

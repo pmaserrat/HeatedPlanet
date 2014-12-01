@@ -3,10 +3,10 @@ package ActiveObject;
 import persistence.MainDB;
 import gui.widget.earth.EarthPanel;
 import gui.widget.earth.TempEarthGrid;
-import EarthSim.Demo;
-import EarthSim.EarthGrid;
-import EarthSim.SimulationBuffer;
-import EarthSim.SimulationSettings;
+import PlanetSim.Demo;
+import PlanetSim.EarthGrid;
+import PlanetSim.SimulationBuffer;
+import PlanetSim.SimulationSettings;
 
 public class SimulationPresenterServant implements Runnable {
 
@@ -53,7 +53,7 @@ public class SimulationPresenterServant implements Runnable {
 		this.proxy = proxy;
 	}
 	
-	public void giveGUI(EarthSim.Demo demoGUI){
+	public void giveGUI(PlanetSim.Demo demoGUI){
 		this.gui = demoGUI;
 	}
 	

@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import EarthSim.EarthGrid;
-import EarthSim.EarthSurface;
-import EarthSim.SimulationSettings;
+import PlanetSim.EarthGrid;
+import PlanetSim.EarthSurface;
+import PlanetSim.SimulationSettings;
 
 public class RunSimulation {
 

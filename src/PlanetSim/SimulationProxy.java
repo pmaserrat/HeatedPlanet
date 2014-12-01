@@ -1,4 +1,4 @@
-package EarthSim;
+package PlanetSim;
 import gui.widget.earth.*;
 
 import java.util.concurrent.BlockingQueue;

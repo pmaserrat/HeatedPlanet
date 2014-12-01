@@ -1,4 +1,4 @@
-package EarthSim;
+package PlanetSim;
 import gui.widget.earth.*;
 
 public class SimulationPresentation extends MethodRequest {

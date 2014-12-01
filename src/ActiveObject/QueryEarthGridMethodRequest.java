@@ -1,7 +1,7 @@
 package ActiveObject;
 
-import EarthSim.SimulationBuffer;
-import EarthSim.SimulationSettings;
+import PlanetSim.SimulationBuffer;
+import PlanetSim.SimulationSettings;
 
 public class QueryEarthGridMethodRequest extends MethodRequest {
 	private SimulationBuffer buffer = null;

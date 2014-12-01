@@ -1,4 +1,4 @@
-package EarthSim;
+package PlanetSim;
 
 import java.util.Calendar;
 

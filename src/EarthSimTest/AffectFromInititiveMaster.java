@@ -6,11 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import EarthSim.Demo;
+import PlanetSim.Demo;
 
 public class AffectFromInititiveMaster {
 
-    EarthSim.Demo      UI          = new EarthSim.Demo();
+    PlanetSim.Demo      UI          = new PlanetSim.Demo();
 	DemoGUIRobot       UITestBot          = new DemoGUIRobot();
 	
 
@@ -61,13 +61,13 @@ public class AffectFromInititiveMaster {
 	@After
      public void tearDown() throws Exception {
 		
-		while(EarthSim.Demo.curIteration <1000)
+		while(PlanetSim.Demo.curIteration <1000)
 		{
-			System.out.println(EarthSim.Demo.curIteration);
+			System.out.println(PlanetSim.Demo.curIteration);
 		}
 		
 		
-		EarthSim.Demo.curIteration =0;
+		PlanetSim.Demo.curIteration =0;
 	}
 	
 	
@@ -83,31 +83,31 @@ public class AffectFromInititiveMaster {
 		   /* Create and display the form */
      java.awt.EventQueue.invokeLater(new Runnable() {
          public void run() {
-           new  EarthSim.Demo().setVisible(true);
-           EarthSim.Demo.curIteration =0;
+           new  PlanetSim.Demo().setVisible(true);
+           PlanetSim.Demo.curIteration =0;
          }
      });
      
      UITestBot.Pause(10000);
      
 	 
-		UITestBot.clickComponement(EarthSim.Demo.jComboBox1, 50, .50);
-		UITestBot.clickComponement(EarthSim.Demo.jComboBox1, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jComboBox1, 50, .50);
+		UITestBot.clickComponement(PlanetSim.Demo.jComboBox1, 50, .50);
 		//UITestBot.Pause(100);
-		EarthSim.Demo.jComboBox1.setSelectedIndex(INITITIVE); 
+		PlanetSim.Demo.jComboBox1.setSelectedIndex(INITITIVE); 
    
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jGridSpcSlider1, 50, .50);
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jGridSpcSlider1, 50, .50);
-		EarthSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
+		PlanetSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
 		UITestBot.Pause(100);
-		EarthSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
+		PlanetSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
 		UITestBot.Pause(100);
-		EarthSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
+		PlanetSim.Demo.jGridSpcSlider1.setValue(GRID_ANGLE);
 		
 		
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSimTmStpSlider2, 50, .50);
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSimTmStpSlider2, 50, .50);
-		EarthSim.Demo.jSimTmStpSlider2.setValue(TIMESTEP);
+		PlanetSim.Demo.jSimTmStpSlider2.setValue(TIMESTEP);
 		
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider3, 50, .50);
 		//UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider3, 50, .50);
@@ -115,11 +115,11 @@ public class AffectFromInititiveMaster {
    
     // UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider4, 50, .50);
 	//	UITestBot.clickComponement(ActiveObject.DemoGUI.jSlider4, 50, .50);
-     EarthSim.Demo.jSlider4.setValue(BUFFER_SIZE);
+     PlanetSim.Demo.jSlider4.setValue(BUFFER_SIZE);
      UITestBot.Pause(1000); 
    
    
-   UITestBot.clickComponement(EarthSim.Demo.simulationButton, 100, .50);
+   UITestBot.clickComponement(PlanetSim.Demo.simulationButton, 100, .50);
    assertTrue(true);
         
 		

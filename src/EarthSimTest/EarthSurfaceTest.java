@@ -2,14 +2,12 @@ package EarthSimTest;
 
 import static org.junit.Assert.*;
 
-
-
 import org.junit.Before;
 import org.junit.Test;
 
-import EarthSim.EarthGrid;
-import EarthSim.EarthSurface;
-import EarthSim.SimulationSettings;
+import PlanetSim.EarthGrid;
+import PlanetSim.EarthSurface;
+import PlanetSim.SimulationSettings;
 
 public class EarthSurfaceTest {
 	EarthSurface earth;

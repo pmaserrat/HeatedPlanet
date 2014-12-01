@@ -4,10 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import persistence.MainDB;
-import EarthSim.EarthGrid;
-import EarthSim.EarthSurface;
-import EarthSim.SimulationBuffer;
-import EarthSim.SimulationSettings;
+import PlanetSim.EarthGrid;
+import PlanetSim.EarthSurface;
+import PlanetSim.SimulationBuffer;
+import PlanetSim.SimulationSettings;
 
 public class SimulationEngineServant implements Runnable {
 

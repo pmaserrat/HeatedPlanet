@@ -1,8 +1,8 @@
 package ActiveObject;
 
 import persistence.MainDB;
-import EarthSim.SimulationBuffer;
-import EarthSim.SimulationSettings;
+import PlanetSim.SimulationBuffer;
+import PlanetSim.SimulationSettings;
 
 public class Proxy {
 	private Scheduler scheduler = null;

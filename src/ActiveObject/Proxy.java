@@ -24,7 +24,7 @@ public class Proxy {
 		SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, dataBuffer);
 		p = p.reset(settings, buffer);
 		
-	 if(!simSet.QueryResultsFound)
+	 if(!settings.isQueryFound())
 	  {	 
 		SimulationEngineServant s = SimulationEngineServant.getInstance(settings, dataBuffer);
 		s = s.reset(settings, buffer);

@@ -35,13 +35,13 @@ public class SimulationQueryServant implements Runnable {
 	public synchronized void executeQueryEarthGrid(){
 		
 		
-		while(this.buffer.remainingGridCapacity()==0){
+		while(!canExecuteQuery()){
 			try {
 				wait();
 			} catch (InterruptedException e) {}
 		}
 		try{
-			EarthGrid grid = this.grid;
+			EarthGrid grid = this.grid;  //<-- place query result here
 
 		    buffer.putGrid(grid);
 			
@@ -53,7 +53,7 @@ public class SimulationQueryServant implements Runnable {
 	
 	
 	public boolean canExecuteQuery(){
-		return  !(this.buffer.isGridBufferEmpty() && simSet.; 
+		return  ( !(this.buffer.remainingGridCapacity() ==0) && settings.isQueryFound()); 
 	}
 	
 	public void giveProxy(Proxy proxy){
@@ -70,7 +70,7 @@ public class SimulationQueryServant implements Runnable {
 	public void run() {
 		isRunning = true;
 		long lastProduced = System.currentTimeMillis();
-		while(true){
+		while(canExecuteQuery()){
 			synchronized(this){
 				int i = 0;
 				while(!isRunning){
@@ -78,36 +78,12 @@ public class SimulationQueryServant implements Runnable {
 						wait();
 					} catch (InterruptedException e) {}
 				}
-				if(settings.isProducerThread()){
-					if(settings.isMasterConsumer()){
-						boolean canProduce = (System.currentTimeMillis()-lastProduced) > 1000.0/settings.getPresentationRate();
-						if(canProduce && buffer.remainingGridCapacity() > 0){
-							try {
-								int j = buffer.takeRequest();
-								//System.out.println("MC - Take Request: " + j);
-								buffer.putGrid(earth.getEarthGridAfterNTimeSteps(j));
-								//System.out.println("Put Grid - " + buffer.gridSize());
-								lastProduced = System.currentTimeMillis();
-							} catch (InterruptedException e) {}
-						} else {
-							//System.out.println("Still Running");
-						}
-					} else if( settings.isMasterProducer()){
-						boolean canProduce = (System.currentTimeMillis()-lastProduced) > 1000.0/settings.getSimulationRate();
-						if(canProduce){
-							try {
-								//System.out.println("Consumer Thread Produced");
-								lastProduced = System.currentTimeMillis();
-								buffer.putGrid(earth.getEarthGridAfterNTimeSteps(1));
-							} catch (InterruptedException e) {}
-						}
-					} else {
-						
+				
+				executeQueryEarthGrid();
+				
 					}
 						
 				}
-			}
-		}
-	}
+	}	
 
 }

@@ -58,6 +58,14 @@ public class Proxy {
 		
 	}
 	
+	public void queryEarthGrid(){
+		QueryEarthGridMethodRequest p = new QueryEarthGridMethodRequest
+
+(this.settings,this.dataBuffer);
+		scheduler.insertProducer(p);
+		
+	}
+	
 
 	
 	public void startScheduler(){
@@ -98,6 +106,7 @@ public class Proxy {
 			for(int i = 0; i < settings.getSimulationIterations(); i++){
 				produceEarthGrid();
 				consumeEarthGrid();
+				queryEarthGrid();
 			}
 		}
 	}

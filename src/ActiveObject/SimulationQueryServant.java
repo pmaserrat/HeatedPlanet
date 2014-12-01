@@ -51,7 +51,10 @@ public class SimulationQueryServant implements Runnable {
 		notify();
 	}
 	
-	
+	public SimulationQueryServant reset(SimulationSettings settings, SimulationBuffer buffer){
+					instance = new SimulationQueryServant(settings,buffer);
+					return instance;
+				}	
 	
 	public boolean canExecuteQuery(){
 		return  ( !(this.buffer.remainingGridCapacity() ==0) && settings.isQueryFound()); 

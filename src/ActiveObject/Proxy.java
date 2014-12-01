@@ -20,6 +20,7 @@ public class Proxy {
 		this.db = new MainDB();
 		db.createDB();
 		db.createTables();
+		db.addSettings(settings);
 		
 		SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, dataBuffer);
 		p = p.reset(settings, buffer);

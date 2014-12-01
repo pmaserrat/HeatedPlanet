@@ -14,7 +14,7 @@ public class SimulationQueryServant implements Runnable {
 	private SimulationBuffer buffer = null;
 	private static SimulationQueryServant instance = null;
 
-	private SimulationSettings settings = null;
+	private SimulationSettings settings;
 	private Proxy proxy = null;
 	private boolean isRunning = false;
 	private Thread t = null;
@@ -41,7 +41,8 @@ public class SimulationQueryServant implements Runnable {
 			} catch (InterruptedException e) {}
 		}
 		try{
-			EarthGrid grid = this.grid;  //<-- place query result here
+			
+			EarthGrid grid = db.readGrid(settings.getSimulationName());  //<-- place query result here
 
 		    buffer.putGrid(grid);
 			

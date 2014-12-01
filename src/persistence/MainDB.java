@@ -226,7 +226,7 @@ stmt = conn.createStatement();
 	}
 	
 	public void addPhysical(String name, int tilt, double eccentricity){
-		String physname = name + "P";
+		String physname = name;
 		PreparedStatement stmt = null;
 		
 		try {
@@ -261,7 +261,7 @@ stmt = conn.createStatement();
 	}
 	
 	public void addSimSettings(String name, int spacing, int timeStep, int length){
-		String settingsname = name + "SS";
+		String settingsname = name;
 		PreparedStatement stmt = null;
 		
 		
@@ -298,7 +298,7 @@ stmt = conn.createStatement();
 	}
 	
 	public void addInvSettings(String name, int precision, int geographic, int temporal){
-		String invname = name + "IS";
+		String invname = name;
 		PreparedStatement stmt = null;
 		
 		try {
@@ -337,7 +337,7 @@ stmt = conn.createStatement();
 	}
 	
 	public void addGrid(String name, Calendar date, Calendar time, int x, int y, double temp){
-		String gridname = name + "G";
+		String gridname = name;
 		Statement stmt = null;
 		
 		try {
@@ -367,39 +367,22 @@ stmt = conn.createStatement();
 		}
 	}
 	
-	public String readSimulations(String name, int tilt, double eccentricity){
+	public String readSimulations(double tilt, double eccentricity){
 		Statement stmt = null;
 		String result = "";
+		int tilts = (int)tilt;
 		
 		try {
 			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 			stmt = conn.createStatement();
-			String sql = "SELECT * from SIMULATION where name=" + name; 
-					
-			ResultSet rs = stmt.executeQuery(sql);
 			
-			if(rs.next()){
-				Boolean yes = false;
-				sql = "SELECT * from PHYSICALFACTORS where name=" + name
-				+ "P and axialtilt=" + tilt + "and eccentricity=" + eccentricity;
-				ResultSet rs1 = stmt.executeQuery(sql);
-				while(rs1.next()){
-					result += rs.getString("name") + " " + rs.getString("axialtilt") 
-							+ " " + rs.getString("eccentricity");
-					
-					yes = true;
-				}
-				if (yes){
-					sql = "SELECT * from GRID where name=" + name + "G";
-					ResultSet rs2 = stmt.executeQuery(sql);
-					while(rs2.next()){
-						result += rs.getString("name") + " " + rs.getString("readingdate") + " "
-								+ rs.getString("readingtime") + " " + rs.getString("latitude") + " "
-								+ rs.getString("longitude") + " " + rs.getString("temperature") + "\n";
-					}
-				}
-				
+			String sql = "SELECT * from PHYSICALFACTORS where axialtilt=" + tilts + " and eccentricity=" + eccentricity;
+			ResultSet rs1 = stmt.executeQuery(sql);
+			if(rs1.next()){
+				result = rs1.getString("name");
 			}
+				
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -418,6 +401,84 @@ stmt = conn.createStatement();
 		      }//end finally try
 		}
 		return result;
+	}
+	
+	public EarthGrid readGrid(String name){
+		Statement stmt = null;
+		EarthGrid grid = new EarthGrid();
+		int spacing = 0;
+		int timestep = 0;
+		int length = 0;
+		
+		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt = conn.createStatement();
+//			String sql = "SELECT * from SIMULATION where name=" + name; 
+//					
+//			ResultSet rs = stmt.executeQuery(sql);
+			
+			
+				
+				String sql = "SELECT * from SIMULATIONSETTINGS where name=" + name;
+				ResultSet rs3 = stmt.executeQuery(sql);
+				if(rs3.next()){
+					spacing = rs3.getInt("gridspacing");
+	                 timestep = rs3.getInt("timestep"); 
+	                  length = rs3.getInt("SimulationLength");
+	                  
+				}
+				
+				int numcells = 360/spacing;
+				int numrows = 180/spacing;
+				double tempgrid[][] = new double[numcells][numrows];
+				
+				sql = "SELECT * from GRID where name=" + name;
+				ResultSet rs2 = stmt.executeQuery(sql);
+					
+				int i = 0;
+				int j = 0;
+				while(rs2.next()){
+//						result += rs2.getString("name") + " " + rs2.getString("readingdate") + " "
+//								+ rs2.getString("readingtime") + " " + rs2.getInt("latitude") + " "					
+//						+ rs2.getInt("longitude") + " " + rs2.getDouble("temperature") + "\n";
+						
+					
+								
+						if (i<numcells){
+							if(j<numcells){
+								grid.setPosX((double)rs2.getInt("latitude"));
+								grid.setPosY((double)rs2.getInt("longitude"));
+								tempgrid[i][j] = rs2.getDouble("temperature");
+								i++;
+								j++;
+							}
+						}
+					}
+				
+				grid.setTimestep(timestep);
+				grid.setTempGrid(tempgrid);
+				
+				
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		}
+		return grid;
 	}
 	
 	public String readQuery(String query){
@@ -468,8 +529,6 @@ stmt = conn.createStatement();
 		double gridtemp[][] = grid.getTempGrid();
 		for (int i = 0; i < grid.getTempGridHeight();i++){
 			for(int j = 0; j < grid.getTempGridWidth(); j++){
-				
-		
 				try {
 					conn = DriverManager.getConnection(DBS_URL, USER, PASS);
 		//			stmt = conn.createStatement();

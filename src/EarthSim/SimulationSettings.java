@@ -2,6 +2,8 @@ package EarthSim;
 
 import java.util.Calendar;
 
+import persistence.MainDB;
+
 public class SimulationSettings {
 
     private int gridSpacing = 15; //number of degrees
@@ -26,6 +28,7 @@ public class SimulationSettings {
 	//private double eccentricity;// = 0.0; //default value
 	//private double obliquity;// = 0.0; //default value
 	private String name;
+	private MainDB db;
     public SimulationSettings(){
 
     }
@@ -244,11 +247,17 @@ public class SimulationSettings {
 		}
 		
 		public boolean isQueryFound() {
+			
 			return mQueryResultsFound;
 		}
 
 		public void setisQueryFound(boolean qryFnd) {
 			this.mQueryResultsFound = qryFnd;
+		}
+
+		public void setSimulationName(String name) {
+			this.name = name;
+			
 		}
 
 	

@@ -24,6 +24,17 @@ public class Proxy {
 		SimulationPresenterServant p = SimulationPresenterServant.getInstance(settings, dataBuffer);
 		p = p.reset(settings, buffer);
 		
+		db = new MainDB();
+		
+		String results = db.readSimulations(settings.getObliquity(), settings.getEccentricity());
+		if(results.equalsIgnoreCase("")){
+			settings.setisQueryFound(false);
+		}
+		else{
+			settings.setisQueryFound(true);
+			settings.setSimulationName(results);
+		}
+		
 	 if(!settings.isQueryFound())
 	  {	 
 		SimulationEngineServant s = SimulationEngineServant.getInstance(settings, dataBuffer);

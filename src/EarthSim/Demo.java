@@ -816,12 +816,13 @@ public class Demo extends JFrame {
 		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
 		  
     	  
-		  
+    	  Calendar date = Calendar.getInstance();
+  		
+	  	  Long date1 = date.getTimeInMillis();
+	  	  String dateString = date1.toString();
 	  		
 	  	  db = new MainDB();
-	  	  simSet.setSimulationName();	
-
-	  	  String dateString = simSet.getSimulationName();
+	  	  simSet.setSimulationName(dateString);	
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 
 	  				simSet.getSimulationIterations());

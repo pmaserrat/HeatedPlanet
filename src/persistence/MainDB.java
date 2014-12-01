@@ -156,6 +156,11 @@ public class MainDB {
 		      stmt.executeUpdate(sql);
 		      System.out.println("Created grid table");
 		      
+stmt = conn.createStatement();
+		      
+		      sql = "ALTER TABLE GRID ADD KEY (name)";
+		      stmt.executeUpdate(sql);
+		      
 		   }catch(SQLException se){
 		      //Handle errors for JDBC
 		      se.printStackTrace();
@@ -461,9 +466,8 @@ public class MainDB {
 		String gridname = name + "G";
 		PreparedStatement stmt = null;
 		double gridtemp[][] = grid.getTempGrid();
-		int gridlength = gridtemp.length;
-		for (int i = 0; i < gridlength;i++){
-			for(int j = 0; j < gridlength; j++){
+		for (int i = 0; i < grid.getTempGridHeight();i++){
+			for(int j = 0; j < grid.getTempGridWidth(); j++){
 				
 		
 				try {

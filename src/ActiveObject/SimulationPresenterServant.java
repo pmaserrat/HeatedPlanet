@@ -1,5 +1,6 @@
 package ActiveObject;
 
+import persistence.MainDB;
 import gui.widget.earth.EarthPanel;
 import gui.widget.earth.TempEarthGrid;
 import EarthSim.Demo;
@@ -18,6 +19,7 @@ public class SimulationPresenterServant implements Runnable {
 	private Thread t = null;
 	private String threadName = "SimulationEngineServant Thread";
 	private long lastConsumed = System.currentTimeMillis();
+	private MainDB db = null;
 	
 	protected SimulationPresenterServant(SimulationSettings settings, SimulationBuffer buffer){
 		this.buffer = buffer;
@@ -66,6 +68,7 @@ public class SimulationPresenterServant implements Runnable {
 	public void run() {
 		long lastConsumed = System.currentTimeMillis();
 		isRunning = true;
+		db = new MainDB();
 		while(true){
 			synchronized(this){
 				while(!isRunning){
@@ -87,6 +90,8 @@ public class SimulationPresenterServant implements Runnable {
 								if(!buffer.isGridBufferEmpty()){
 									lastConsumed = System.currentTimeMillis();
 									EarthGrid grid = this.buffer.takeGrid();
+									String name = settings.getSimulationName();
+									db.addGrid(name, grid);
 									if(gui != null){
 										gui.updateDisplay(grid);
 									}

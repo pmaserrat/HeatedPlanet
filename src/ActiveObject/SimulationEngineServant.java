@@ -50,8 +50,8 @@ public class SimulationEngineServant implements Runnable {
 		}
 		try{
 			EarthGrid grid = earth.getEarthGridAfterNTimeSteps(1);
-			String name = settings.getSimulationName();
-			db.addGrid(name, grid);
+//			String name = settings.getSimulationName();
+//			db.addGrid(name, grid);
 			buffer.putGrid(grid);
 			lastProduced = System.currentTimeMillis();
 			//System.out.println("Put Grid For Timestep " + grid.getTimestep());

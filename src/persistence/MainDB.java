@@ -60,6 +60,34 @@ public class MainDB {
 		   }
 	}
 	
+	public void dropTables(){
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = DriverManager.getConnection(DBS_URL, USER, PASS);
+			stmt1 = conn.createStatement();
+		      
+		      String sql1 = "DROP TABLE GRID"; 
+
+		      stmt1.executeUpdate(sql1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		}
+	}
+	
 	public void createTables(){
 		try{
 		      
@@ -99,7 +127,6 @@ public class MainDB {
 		                   " gridspacing INTEGER, " + 
 		                   " timestep INTEGER, " + 
 		                   " SimulationLength INTEGER) "; 
-		      System.out.println(sql2);
 
 		      stmt2.executeUpdate(sql2);
 		      System.out.println("Created sim settings table");
@@ -112,7 +139,6 @@ public class MainDB {
 		                   " precisions INTEGER, " + 
 		                   " geographic INTEGER, " + 
 		                   " temporal INTEGER) "; 
-		      System.out.println(sql3);
 
 		      stmt3.executeUpdate(sql3);
 		      System.out.println("Created invocation table");
@@ -127,7 +153,6 @@ public class MainDB {
 		                   " latitude INTEGER, " + 
 		                   " longitude INTEGER, " +
 		                   " temperature DOUBLE) ";
-
 		      stmt.executeUpdate(sql);
 		      System.out.println("Created grid table");
 		      

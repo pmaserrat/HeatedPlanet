@@ -1,5 +1,7 @@
 package EarthSim;
 
+import java.util.Calendar;
+
 public class SimulationSettings {
 
     private int gridSpacing = 15; //number of degrees
@@ -27,8 +29,11 @@ public class SimulationSettings {
 
     }
     
-    public void setSimulationName(String name){
-    	this.name = name;
+    public void setSimulationName(){
+    	Calendar date = Calendar.getInstance();
+  		Long date1 = date.getTimeInMillis();
+	  	String dateString = date1.toString();
+    	this.name = dateString;
     }
     
     public String getSimulationName(){

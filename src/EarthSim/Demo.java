@@ -815,11 +815,11 @@ public class Demo extends JFrame {
 		  buffer = new SimulationBuffer(jSlider4.getValue());  //was 1
 		  
     	  
-  
+		  
 	  		
 	  	  db = new MainDB();
 	  	  simSet.setSimulationName();	
-	  	  
+
 	  	  String dateString = simSet.getSimulationName();
 	  	  db.addSimulation(dateString);
 	  	  db.addSimSettings(dateString, simSet.getGridSpacing(), simSet.getTimeStep(), 

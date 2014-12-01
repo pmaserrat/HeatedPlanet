@@ -202,7 +202,7 @@ public class SimulationSettings {
 			this.obliquity = obliquity;}
 	}
 	
-	public double getPercision() {
+	public int getPercision() {
 		
 		return mPercision; 
 	}
@@ -212,7 +212,7 @@ public class SimulationSettings {
 			this.mPercision = percision;}
 	}
 	
-    public double getGeoPercision() {
+    public int getGeoPercision() {
 		
 		return mGeoPercision; 
 	}
@@ -222,7 +222,7 @@ public class SimulationSettings {
 			this.mGeoPercision = percision;}
 	}
 	
-    public double getTemporalPercision() {
+    public int getTemporalPercision() {
 		
 		return mTemporalPercision; 
 	}

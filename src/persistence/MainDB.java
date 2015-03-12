@@ -10,12 +10,8 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 
-<<<<<<< HEAD
 import PlanetSim.EarthGrid;
-=======
-import EarthSim.EarthGrid;
-import EarthSim.SimulationSettings;
->>>>>>> branch 'master' of https://github.gatech.edu/egriffin33/CS6310-HeatedPlanet.git
+import PlanetSim.SimulationSettings;
 
 
 public class MainDB {
